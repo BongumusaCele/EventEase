@@ -1,0 +1,32 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h2>Event Details</h2>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Name</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Venue</dt>
+            <dd class="col-sm-9">@(Model.Venue != null ? Model.Venue.Name : "Not assigned")</dd>
+
+            <dt class="col-sm-3">Start</dt>
+            <dd class="col-sm-9">@Model.StartDateTime</dd>
+
+            <dt class="col-sm-3">End</dt>
+            <dd class="col-sm-9">@Model.EndDateTime</dd>
+
+            <dt class="col-sm-3">Description</dt>
+            <dd class="col-sm-9">@Model.Description</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@Model.EventId">Edit</a>
+    <a class="btn btn-secondary" asp-action="Index">Back</a>
+</div>
