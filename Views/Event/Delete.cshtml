@@ -1,0 +1,15 @@
+﻿@model EventEase.Models.Event
+
+@{
+    ViewData["Titlt"]="Delete";
+}
+
+<h3>Are you sure you want to delete this event?</h3>
+
+<p>@Model.Name</p>
+<p>@Model.Name $</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="EventId" />
+    <input type="submit" class="btn btn-danger" value="Delete"/>
+</form>
