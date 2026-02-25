@@ -1,12 +1,14 @@
 ﻿using EventEase.Data;
 using EventEase.Models;
 using EventEase.Models.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventEase.Controllers
 {
+    [Authorize]
     public class BookingsController : Controller
     {
         private readonly EventEaseContext _contextEventEase;

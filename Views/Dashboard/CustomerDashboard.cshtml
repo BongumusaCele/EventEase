@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "My Bookings";
+    var bookings = ViewBag.Bookings;
+}
+
+<div class="page-header">
+    <h1>My Bookings</h1>
+    <p>Manage your event reservations</p>
+</div>
+
+<!-- Quick Action -->
+<div style="margin-bottom: 2rem;">
+    <a href="/Venue" class="btn btn-primary btn-large">Browse Events & Venues</a>
+</div>
+
+<!-- Bookings List -->
+<div class="card">
+    <div class="card-header">
+        <h2>Your Reservations</h2>
+    </div>
+    <div class="card-body">
+        @if (bookings?.Count > 0)
+        {
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Venue</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in bookings)
+                        {
+                            <tr>
+                                <td><strong>@booking.Event?.Name ?? "N/A"</strong></td>
+                                <td>@booking.Venue?.Name ?? "N/A"</td>
+                                <td>@booking.StartDateTime.ToString("MMM dd, yyyy")</td>
+                                <td>@booking.EndDateTime.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <span class="badge badge-@(booking.Status?.ToLower() == "confirmed" ? "success" : booking.Status?.ToLower() == "pending" ? "warning" : "secondary")">
+                                        @booking.Status ?? "Unknown"
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/Bookings/Details/@booking.BookingId" style="color: var(--primary); font-weight: 500;">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div style="text-align: center; padding: 3rem 0;">
+                <p style="color: var(--gray-500); margin-bottom: 1rem;">You haven't made any bookings yet.</p>
+                <a href="/Venue" class="btn btn-primary">Browse Venues</a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .page-header {
+        margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+        color: var(--gray-500);
+    }
+</style>

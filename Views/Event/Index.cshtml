@@ -1,34 +1,121 @@
-﻿@model List<EventEase.Models.Event>
+﻿@model IEnumerable<Event>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Events";
 }
 
-<h3>Index</h3>
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>🎉 Event Management</h1>
+            <p>Create and manage all your events</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary btn-large">
+            <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> New Event
+        </a>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Description</th>
-            <th>Venue</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.StartDateTime</td>
-                <td>@item.EndDateTime</td>
-                <td>@item.Description</td>
-                <td>@item.Venue?.Name</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Filter Section -->
+<div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <input type="text" class="form-control" placeholder="🔍 Search events..." 
+           style="flex: 1; max-width: 400px;" />
+    <select class="form-control" style="max-width: 250px;">
+        <option value="">All Venues</option>
+        <option value="">Select a venue...</option>
+    </select>
+</div>
+
+<!-- Events Table -->
+@if (Model?.Any() ?? false)
+{
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>🎉 Event Name</th>
+                        <th>🏢 Venue</th>
+                        <th>📅 Start Date</th>
+                        <th>📅 End Date</th>
+                        <th>ℹ️ Description</th>
+                        <th style="text-align: center;">⚙️ Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var evt in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@evt.Name</strong>
+                            </td>
+                            <td>
+                                @if (evt.Venue != null)
+                                {
+                                    <span class="badge" style="background: var(--primary-light); color: white;">
+                                        @evt.Venue.Name
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge" style="background: #fee2e2; color: #991b1b;">
+                                        ⚠️ Not assigned
+                                    </span>
+                                }
+                            </td>
+                            <td>@evt.StartDateTime.ToString("MMM dd, yyyy")</td>
+                            <td>@evt.EndDateTime.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @{
+                                    var description = evt.Description ?? "";
+                                    var shortDesc = description.Length > 30 ? description.Substring(0, 30) + "..." : description;
+                                }
+                                <small>@shortDesc</small>
+                            </td>
+                            <td style="text-align: center;">
+                                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                    <a asp-action="Details" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
+                                        👁️ View
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--warning); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
+                                        ✏️ Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--danger); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
+                                        🗑️ Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+        <h2>No Events Found</h2>
+        <p style="color: var(--gray-600); margin-bottom: 2rem;">Create your first event to get started.</p>
+        <a asp-action="Create" class="btn btn-primary btn-large">Create Event</a>
+    </div>
+}
+
+<style>
+    .page-header {
+        margin-bottom: 2.5rem;
+    }
+
+    table tbody tr:hover {
+        background-color: var(--gray-50);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 0.375rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+</style>

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Venue>
+
+@{
+    ViewData["Title"] = "Venues";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h1>🏢 Venues Management</h1>
+            <p>Manage and organize all your event venues</p>
+        </div>
+        <a href="/Venue/Create" class="btn btn-primary btn-large">
+            <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> Add New Venue
+        </a>
+    </div>
+</div>
+
+<!-- Search Bar -->
+<div style="margin-bottom: 2rem;">
+    <form method="get" style="display: flex; gap: 1rem;">
+        <input type="text" name="search" class="form-control" placeholder="🔍 Search venues..." 
+               style="flex: 1; max-width: 400px;" value="@(ViewBag.SearchTerm ?? "")" />
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/Venue" class="btn btn-secondary">Clear</a>
+    </form>
+</div>
+
+<!-- Venues Grid -->
+@if (Model?.Any() ?? false)
+{
+    <div class="grid grid-cols-3">
+        @foreach (var venue in Model)
+        {
+            <div class="card venue-card">
+                <!-- Venue Image -->
+                <div style="background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); height: 200px; border-radius: 12px 12px 0 0; display: flex; align-items: center; justify-content: center; font-size: 4rem; overflow: hidden;">
+                    @if (!string.IsNullOrEmpty(venue.ImageUrl))
+                    {
+                        <img src="@venue.ImageUrl" alt="@venue.Name" style="width: 100%; height: 100%; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <span>🏢</span>
+                    }
+                </div>
+
+                <!-- Venue Info -->
+                <div style="padding: 1.5rem;">
+                    <h3 style="margin: 0 0 0.5rem 0;">@venue.Name</h3>
+
+                    <div style="margin: 1rem 0; padding: 1rem 0; border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="color: var(--gray-600);">📍 Location</span>
+                            <strong>@venue.Location</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--gray-600);">👥 Capacity</span>
+                            <strong>@venue.Capacity people</strong>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <a asp-action="Details" asp-route-id="@venue.VenueId" class="btn btn-primary" style="flex: 1; font-size: 0.8rem;">
+                            View
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@venue.VenueId" class="btn btn-secondary" style="flex: 1; font-size: 0.8rem;">
+                            Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@venue.VenueId" class="btn btn-danger" style="flex: 1; font-size: 0.8rem;">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="card" style="text-align: center; padding: 3rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">🏚️</div>
+        <h2>No Venues Found</h2>
+        <p style="color: var(--gray-600); margin-bottom: 2rem;">Start by creating your first venue to begin managing bookings.</p>
+        <a asp-action="Create" class="btn btn-primary btn-large">Create First Venue</a>
+    </div>
+}
+
+<style>
+    .venue-card {
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .venue-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .grid {
+        display: grid;
+        gap: 2rem;
+    }
+</style>

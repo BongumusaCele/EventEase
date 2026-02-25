@@ -1,0 +1,317 @@
+@page
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>EventEase</h1>
+            <p class="hero-subtitle">Manage Events & Venues with Ease</p>
+            <p class="hero-description">The modern platform for booking specialists to manage venues, events, and reservations seamlessly.</p>
+            
+            <div class="hero-actions">
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <a asp-page="/Dashboard/Index" class="btn btn-primary btn-large">
+                        Go to Dashboard →
+                    </a>
+                    <a asp-page="/Public/Venues" class="btn btn-secondary btn-large">
+                        Browse Venues
+                    </a>
+                }
+                else
+                {
+                    <a asp-page="/Account/Login" class="btn btn-primary btn-large">
+                        Sign In Now →
+                    </a>
+                    <a asp-page="/Account/Register" class="btn btn-secondary btn-large">
+                        Create Account
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="features-section">
+    <div class="container">
+        <h2>Why Choose EventEase?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Smart Dashboard</h3>
+                <p>Real-time analytics and KPIs for booking management and event tracking</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Venue Management</h3>
+                <p>Browse and manage multiple venues with detailed capacity and location info</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎉</div>
+                <h3>Event Organization</h3>
+                <p>Effortlessly create and manage events across different venues</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Booking System</h3>
+                <p>Streamlined booking workflow with status tracking and confirmations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Events Managed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">200+</div>
+                <div class="stat-label">Venues Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Bookings Processed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Customer Satisfaction</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Get Started?</h2>
+        <p>Join thousands of event professionals using EventEase</p>
+        @if (!(User?.Identity?.IsAuthenticated ?? false))
+        {
+            <a asp-page="/Account/Login" class="btn btn-primary btn-large">
+                Sign In Now
+            </a>
+        }
+        else
+        {
+            <a asp-page="/Dashboard/Index" class="btn btn-primary btn-large">
+                Open Dashboard
+            </a>
+        }
+    </div>
+</section>
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, rgba(255, 122, 90, 0.15) 0%, rgba(255, 122, 90, 0.05) 100%);
+        padding: 100px 20px;
+        margin-bottom: 60px;
+        border-bottom: 2px solid var(--border);
+    }
+
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 56px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: var(--ink);
+        background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero-subtitle {
+        font-size: 24px;
+        color: var(--muted);
+        margin: 0 0 20px 0;
+    }
+
+    .hero-description {
+        font-size: 18px;
+        color: var(--ink);
+        line-height: 1.6;
+        margin: 0 0 40px 0;
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(255, 122, 90, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: var(--card-bg);
+        color: var(--peach);
+        border: 2px solid var(--peach);
+    }
+
+    .btn-secondary:hover {
+        background-color: rgba(255, 122, 90, 0.05);
+        transform: translateY(-2px);
+    }
+
+    .btn-large {
+        padding: 16px 32px;
+        font-size: 16px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 80px 20px;
+        background-color: var(--bg);
+    }
+
+    .features-section h2 {
+        font-size: 36px;
+        text-align: center;
+        margin: 0 0 60px 0;
+        color: var(--ink);
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-color: var(--peach);
+    }
+
+    .feature-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+        font-size: 20px;
+        margin: 0 0 12px 0;
+        color: var(--ink);
+    }
+
+    .feature-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 80px 20px;
+        background: linear-gradient(135deg, rgba(255, 122, 90, 0.1) 0%, rgba(255, 122, 90, 0.05) 100%);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 40px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 48px;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 12px;
+    }
+
+    .stat-label {
+        font-size: 16px;
+        color: var(--muted);
+        font-weight: 500;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 80px 20px;
+        background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);
+        color: white;
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-size: 36px;
+        margin: 0 0 12px 0;
+        color: white;
+    }
+
+    .cta-section p {
+        font-size: 18px;
+        margin: 0 0 32px 0;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .cta-section .btn-primary {
+        background: white;
+        color: var(--peach);
+    }
+
+    .cta-section .btn-primary:hover {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+</style>

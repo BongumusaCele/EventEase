@@ -1,0 +1,115 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var dashboardData = ViewBag.DashboardData;
+}
+
+<div class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome to EventEase Management System</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-4">
+    <div class="stat-card">
+        <div class="stat-label">Total Bookings</div>
+        <div class="stat-value">@dashboardData.TotalBookings</div>
+        <div class="stat-change">↑ 12% from last month</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Active Events</div>
+        <div class="stat-value">@dashboardData.TotalEvents</div>
+        <div class="stat-change">↑ 5% from last month</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Total Venues</div>
+        <div class="stat-value">@dashboardData.TotalVenues</div>
+        <div class="stat-change">No change</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-value">@dashboardData.TotalCustomers</div>
+        <div class="stat-change">↑ 8% from last month</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div style="margin: 2rem 0;">
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="/Bookings/Create" class="btn btn-primary btn-large">+ New Booking</a>
+        <a href="/Venue/Create" class="btn btn-primary btn-large">+ Add Venue</a>
+        <a href="/Event/Create" class="btn btn-primary btn-large">+ Create Event</a>
+        <a href="/Customer/Create" class="btn btn-secondary btn-large">+ Add Customer</a>
+    </div>
+</div>
+
+<!-- Recent Bookings Section -->
+<div class="card" style="margin-top: 2rem;">
+    <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Recent Bookings</h2>
+            <a href="/Bookings/Index" style="color: var(--primary); font-weight: 600;">View All →</a>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (dashboardData.RecentBookings?.Count > 0)
+        {
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer</th>
+                            <th>Venue</th>
+                            <th>Event</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in dashboardData.RecentBookings)
+                        {
+                            <tr>
+                                <td><strong>@booking.BookingId</strong></td>
+                                <td>@booking.Customer?.Name</td>
+                                <td>@booking.Venue?.Name</td>
+                                <td>@booking.Event?.Name</td>
+                                <td>
+                                    <span class="badge badge-@(booking.Status?.ToLower() == "confirmed" ? "success" : booking.Status?.ToLower() == "pending" ? "warning" : "secondary")">
+                                        @booking.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/Bookings/Details/@booking.BookingId" style="color: var(--primary); font-weight: 500;">View</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p style="text-align: center; color: var(--gray-500); padding: 2rem;">No bookings yet. <a href="/Bookings/Create">Create one now</a></p>
+        }
+    </div>
+</div>
+
+<style>
+    .page-header {
+        margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+        margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+        color: var(--gray-500);
+    }
+
+    .grid {
+        display: grid;
+        gap: var(--spacing-lg);
+        margin-bottom: 2rem;
+    }
+</style>

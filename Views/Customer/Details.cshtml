@@ -1,0 +1,77 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+        <h1><i class="fas fa-user" style="color: var(--primary); margin-right: 0.5rem;"></i>Customer Details</h1>
+        <p>View customer profile and contact information</p>
+    </div>
+
+    <div class="card">
+        <div style="padding: 2rem;">
+            <!-- Customer Name (Large Header) -->
+            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 2px solid var(--gray-200);">
+                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700;">
+                    @Model.Name.FirstOrDefault().ToString().ToUpper()
+                </div>
+                <div>
+                    <h2 style="margin: 0; color: var(--gray-900); font-size: 1.75rem; font-weight: 700;">@Model.Name</h2>
+                    <p style="margin: 0.5rem 0 0 0; color: var(--gray-600);">Customer ID: #@Model.CustomerId</p>
+                </div>
+            </div>
+
+            <!-- Contact Information Grid -->
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                <!-- Email -->
+                <div style="padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius); border-left: 4px solid var(--primary);">
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i>Email Address
+                    </label>
+                    <div style="margin-top: 0.75rem; font-size: 1.1rem; font-weight: 500; color: var(--gray-900);">
+                        <a href="mailto:@Model.Email" style="color: var(--primary); text-decoration: none;">@Model.Email</a>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div style="padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius); border-left: 4px solid var(--accent);">
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-phone" style="color: var(--accent); margin-right: 0.5rem;"></i>Phone Number
+                    </label>
+                    <div style="margin-top: 0.75rem; font-size: 1.1rem; font-weight: 500; color: var(--gray-900);">
+                        @if (!string.IsNullOrEmpty(Model.Phone))
+                        {
+                            <a href="tel:@Model.Phone" style="color: var(--primary); text-decoration: none;">@Model.Phone</a>
+                        }
+                        else
+                        {
+                            <span style="color: var(--gray-500); font-style: italic;">Not provided</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Info -->
+            <div style="padding: 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--radius); color: white; margin-bottom: 2rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i class="fas fa-info-circle" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <div style="font-weight: 600;">Customer Profile Active</div>
+                        <div style="font-size: 0.875rem; opacity: 0.9; margin-top: 0.25rem;">This customer can book events and manage their reservations</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 2px solid var(--gray-200);">
+                <a asp-action="Edit" asp-route-id="@Model.CustomerId" class="btn btn-primary" style="flex: 1; min-width: 150px;">
+                    <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit Customer
+                </a>
+                <a asp-action="Index" class="btn btn-secondary" style="flex: 1; min-width: 150px;">
+                    <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,187 @@
+@page
+@using EventEase.Pages.Dashboard
+@model IndexModel
+@{
+    ViewData["Title"] = "Booking Specialist Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <h1>Welcome, Booking Specialist</h1>
+            <p>Manage your events, venues, and bookings</p>
+        </div>
+        <div class="header-actions">
+            <a asp-page="/Bookings/Create" class="btn-icon-action">
+                <span>➕</span> New Booking
+            </a>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <span class="kpi-icon">📊</span>
+                <span class="kpi-label">Total Bookings</span>
+            </div>
+            <div class="kpi-value">@Model.TotalBookings</div>
+            <div class="kpi-trend">+2.5% this month</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <span class="kpi-icon">🎉</span>
+                <span class="kpi-label">Active Events</span>
+            </div>
+            <div class="kpi-value">@Model.ActiveEvents</div>
+            <div class="kpi-trend">Upcoming events</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <span class="kpi-icon">🏢</span>
+                <span class="kpi-label">Total Venues</span>
+            </div>
+            <div class="kpi-value">@Model.TotalVenues</div>
+            <div class="kpi-trend">Available spaces</div>
+        </div>
+
+        <div class="kpi-card kpi-warning">
+            <div class="kpi-header">
+                <span class="kpi-icon">⏳</span>
+                <span class="kpi-label">Pending Bookings</span>
+            </div>
+            <div class="kpi-value">@Model.PendingBookings</div>
+            <div class="kpi-trend">Awaiting confirmation</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Recent Bookings -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Recent Bookings</h2>
+                <a asp-page="/Bookings/Index" class="link-muted">View All →</a>
+            </div>
+            <div class="bookings-table">
+                @if (Model.Bookings.Any())
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Customer</th>
+                                <th>Venue</th>
+                                <th>Event</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model.Bookings.Take(5))
+                            {
+                                <tr>
+                                    <td><strong>@booking.BookingId</strong></td>
+                                    <td>@booking.Customer?.Name ?? "N/A"</td>
+                                    <td>@booking.Venue?.Name ?? "N/A"</td>
+                                    <td>@booking.Event?.Name ?? "N/A"</td>
+                                    <td>@booking.StartDateTime.ToString("MMM dd, yyyy")</td>
+                                    <td>
+                                        <span class="status-badge status-@booking.Status?.ToLower()">
+                                            @booking.Status ?? "Unknown"
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a asp-page="/Bookings/Details" asp-route-id="@booking.BookingId" class="action-link">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <p>No bookings yet. Start by creating a new booking!</p>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- Featured Venues -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Featured Venues</h2>
+                <a asp-page="/Venues/Index" class="link-muted">Manage Venues →</a>
+            </div>
+            <div class="venues-grid">
+                @if (Model.Venues.Any())
+                {
+                    @foreach (var venue in Model.Venues.Take(4))
+                    {
+                        <div class="venue-card">
+                            <div class="venue-image" style="background: linear-gradient(135deg, var(--peach) 0%, var(--peach-dark) 100%);"></div>
+                            <div class="venue-info">
+                                <h3>@venue.Name</h3>
+                                    <p class="venue-location">📍 @venue.Location</p>
+                                    <p class="venue-capacity">👥 Capacity: @venue.Capacity</p>
+                                <a asp-page="/Venues/Details" asp-route-id="@venue.VenueId" class="btn-small">View Details</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <span class="empty-icon">🏚️</span>
+                        <p>No venues added yet.</p>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="dashboard-section" style="grid-column: 1 / -1;">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <a asp-page="/Events/Index" class="link-muted">Manage Events →</a>
+            </div>
+            <div class="events-list">
+                @if (Model.Events.Any())
+                {
+                    @foreach (var evt in Model.Events.Take(5))
+                    {
+                        <div class="event-item">
+                            <div class="event-date">
+                                <span class="event-day">@evt.StartDateTime.Day</span>
+                                <span class="event-month">@evt.StartDateTime.ToString("MMM")</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>@evt.Name</h4>
+                                <p>@evt.Description</p>
+                                <div class="event-meta">
+                                    <span>📅 @evt.StartDateTime.ToString("h:mm tt")</span>
+                                    <span>👥 Expected: @evt.StartDateTime.ToString("MMM dd")</span>
+                                </div>
+                            </div>
+                            <a asp-page="/Events/Details" asp-route-id="@evt.EventId" class="btn-small">Manage</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <p>No upcoming events. Create one to get started!</p>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>

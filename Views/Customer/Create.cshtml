@@ -1,0 +1,116 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Create Customer";
+}
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+        <h1><i class="fas fa-user" style="color: var(--primary); margin-right: 0.5rem;"></i>Add New Customer</h1>
+        <p>Welcome aboard! Let's get to know your new customer</p>
+    </div>
+
+    <div class="card">
+        <div style="padding: 2rem;">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
+                    <strong>⚠️ Please fix the errors below:</strong>
+                    @Html.ValidationSummary(false)
+                </div>
+            }
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <!-- Customer Name -->
+                <div class="form-group">
+                    <label class="form-label" asp-for="Name">
+                        <i class="fas fa-user" style="color: var(--primary); margin-right: 0.5rem;"></i> Full Name
+                    </label>
+                    <input asp-for="Name" class="form-control" placeholder="John Doe" />
+                    <span asp-validation-for="Name" class="form-error"></span>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Customer's full name</small>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" asp-for="Email">
+                        <i class="fas fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i> Email Address
+                    </label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="john@example.com" />
+                    <span asp-validation-for="Email" class="form-error"></span>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Email for communication and notifications</small>
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label class="form-label" asp-for="Phone">
+                        <i class="fas fa-phone" style="color: var(--primary); margin-right: 0.5rem;"></i> Phone Number
+                    </label>
+                    <input asp-for="Phone" type="tel" class="form-control" placeholder="+1 (555) 123-4567" />
+                    <span asp-validation-for="Phone" class="form-error"></span>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Best contact number (optional)</small>
+                </div>
+
+                <!-- Form Actions -->
+                <div style="display: flex; gap: 1rem; margin-top: 2rem; margin-bottom: 0;">
+                    <button type="submit" class="btn btn-primary btn-large" style="flex: 1;">
+                        ✨ Add Customer
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-large" style="flex: 1;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <a asp-action="Index" style="color: var(--primary); font-weight: 500;">← Back to Customers</a>
+    </div>
+</div>
+
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        color: var(--gray-800);
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--gray-200);
+        border-radius: var(--radius);
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-control::placeholder {
+        color: var(--gray-400);
+    }
+
+    .form-error {
+        color: var(--danger);
+        font-size: 0.875rem;
+        display: block;
+        margin-top: 0.5rem;
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

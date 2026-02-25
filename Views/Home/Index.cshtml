@@ -1,8 +1,101 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@if (!(User?.Identity?.IsAuthenticated ?? false))
+{
+    <!-- Non-authenticated Home Page -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <span style="color: var(--primary); font-weight: 700;">Event</span><span style="color: var(--accent); font-weight: 700;">Ease</span>
+            </a>
+            <ul class="navbar-nav" style="gap: 2rem;">
+                <li><a href="#features" style="color: var(--gray-700);">Features</a></li>
+                <li><a href="#" style="color: var(--gray-700);">About</a></li>
+            </ul>
+            <div class="navbar-user">
+                <a href="/Auth/Login" class="btn btn-primary btn-small">Login</a>
+                <a href="/Auth/Register" class="btn btn-outline btn-small">Register</a>
+            </div>
+        </div>
+    </nav>
+}
+
+<div style="padding: @(User?.Identity?.IsAuthenticated ?? false ? "2rem" : "0");">
+    @if (!(User?.Identity?.IsAuthenticated ?? false))
+    {
+        <!-- Hero Section -->
+        <div style="background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); color: white; padding: 6rem 2rem; text-align: center; margin: -3rem -1.5rem 2rem;">
+            <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to EventEase</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.95;">The modern platform for managing events, venues, and bookings</p>
+
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/Auth/Login" class="btn btn-primary" style="background: white; color: #6366f1; padding: 0.75rem 2rem;">Sign In</a>
+                <a href="/Auth/Register" class="btn btn-outline" style="border-color: white; color: white; padding: 0.75rem 2rem;">Get Started</a>
+            </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-3" style="padding: 0 2rem;">
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+                    <h3>Event Management</h3>
+                    <p>Create and manage events with ease. Track all details and updates in one place.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏢</div>
+                    <h3>Venue Management</h3>
+                    <p>Organize your venues, capacities, and availability. Streamline venue bookings.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📋</div>
+                    <h3>Booking System</h3>
+                    <p>Efficient booking management with real-time status tracking and confirmations.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Authenticated Home Page -->
+        <div class="page-header">
+            <h1>Welcome to EventEase</h1>
+            <p>Manage your events, venues, and bookings efficiently</p>
+        </div>
+
+        <div class="grid grid-cols-3">
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📅</div>
+                    <h3>Event Management</h3>
+                    <p>Create and manage events with ease. Track all details and updates in one place.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏢</div>
+                    <h3>Venue Management</h3>
+                    <p>Organize your venues, capacities, and availability. Streamline venue bookings.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📋</div>
+                    <h3>Booking System</h3>
+                    <p>Efficient booking management with real-time status tracking and confirmations.</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+

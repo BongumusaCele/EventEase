@@ -1,0 +1,73 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div style="max-width: 650px; margin: 0 auto;">
+    <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+        <h1><i class="fas fa-user-cog" style="color: var(--primary); margin-right: 0.5rem;"></i>Edit User</h1>
+        <p>Update user account information</p>
+    </div>
+
+    <div class="card">
+        <div style="padding: 2rem;">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="UserId" />
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-envelope"></i></span> Email Address
+                    </label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="user@example.com" />
+                    <small>The user's email address (used for login)</small>
+                    <span asp-validation-for="Email" style="color: var(--danger); font-size: 0.875rem; display: block; margin-top: 0.25rem;"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-lock"></i></span> Password
+                    </label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" />
+                    <small>Create a strong password (minimum 6 characters)</small>
+                    <span asp-validation-for="Password" style="color: var(--danger); font-size: 0.875rem; display: block; margin-top: 0.25rem;"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;\"><i class="fas fa-user-shield"></i></span> User Role
+                    </label>
+                    <select asp-for="Role" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Select a role --</option>
+                        <option value="Admin"><i class="fas fa-crown"></i> Admin - Full system access</option>
+                        <option value="BookingSpecialist"><i class="fas fa-chart-bar"></i> Booking Specialist - Manage bookings</option>
+                        <option value="Customer"><i class="fas fa-user"></i> Customer - Self-service bookings</option>
+                    </select>
+                    <small>Choose the user's role and permissions level</small>
+                    <span asp-validation-for="Role" style="color: var(--danger); font-size: 0.875rem; display: block; margin-top: 0.25rem;"></span>
+                </div>
+
+                <div style="background-color: #eff6ff; border-left: 4px solid var(--primary); padding: 1rem; border-radius: var(--radius); margin: 1.5rem 0; font-size: 0.9rem;">
+                    <strong>🔒 Security Note:</strong> Passwords must be securely hashed before storage. Never store plain text passwords in production.
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" style="flex: 1; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);">
+                        ✨ Update User
+                    </button>
+                    <a asp-action="Index" style="flex: 1; padding: 0.875rem 1.5rem; background-color: var(--gray-200); color: var(--gray-800); border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.3s ease;">
+                        ← Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <a asp-action="Index" style="color: var(--primary); font-weight: 500;">← Back to Users</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

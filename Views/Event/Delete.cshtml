@@ -1,15 +1,22 @@
-﻿@model EventEase.Models.Event
-
+﻿@model Event
 @{
-    ViewData["Titlt"]="Delete";
+    ViewData["Title"] = "Delete Event";
 }
 
-<h3>Are you sure you want to delete this event?</h3>
+<h2>Delete Event</h2>
 
-<p>@Model.Name</p>
-<p>@Model.Name $</p>
+<div class="alert alert-warning mt-3">
+    Are you sure you want to delete <strong>@Model.Name</strong>?
+</div>
+
+<ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Venue:</strong> @(Model.Venue != null ? Model.Venue.Name : "Not assigned")</li>
+    <li class="list-group-item"><strong>Start:</strong> @Model.StartDateTime</li>
+    <li class="list-group-item"><strong>End:</strong> @Model.EndDateTime</li>
+</ul>
 
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="EventId" />
-    <input type="submit" class="btn btn-danger" value="Delete"/>
+    <button class="btn btn-danger" type="submit">Delete</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
 </form>

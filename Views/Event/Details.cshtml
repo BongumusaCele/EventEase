@@ -1,0 +1,124 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+        <h1><i class="fas fa-calendar-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Event Details</h1>
+        <p>View comprehensive event information</p>
+    </div>
+
+    <div class="card">
+        <div style="padding: 2rem;">
+            <!-- Event Name -->
+            <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 2px solid var(--gray-200);">
+                <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                    <i class="fas fa-circle-notch" style="color: var(--primary); margin-right: 0.5rem;"></i>Event Name
+                </label>
+                <h2 style="margin-top: 0.75rem; color: var(--gray-900); font-size: 2rem; font-weight: 700;">@Model.Name</h2>
+            </div>
+
+            <!-- Main Details Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                <!-- Venue -->
+                <div>
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-building" style="color: var(--primary); margin-right: 0.5rem;"></i>Assigned Venue
+                    </label>
+                    <div style="margin-top: 0.75rem; font-size: 1.1rem; font-weight: 500; color: var(--gray-900);">
+                        @(Model.Venue != null ? Model.Venue.Name : "Not yet assigned")
+                    </div>
+                    @if (Model.Venue != null)
+                    {
+                        <div style="margin-top: 0.25rem; color: var(--gray-600); font-size: 0.875rem;">
+                            <i class="fas fa-map-marker-alt"></i> @Model.Venue.Location
+                        </div>
+                        <div style="margin-top: 0.25rem; color: var(--gray-600); font-size: 0.875rem;">
+                            <i class="fas fa-users"></i> Capacity: @Model.Venue.Capacity
+                        </div>
+                    }
+                </div>
+
+                <!-- Event Status -->
+                <div>
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-flag" style="color: var(--primary); margin-right: 0.5rem;"></i>Status
+                    </label>
+                    <div style="margin-top: 0.75rem;">
+                        @{
+                            var now = DateTime.Now;
+                            var status = Model.StartDateTime > now ? "Upcoming" : Model.EndDateTime < now ? "Completed" : "In Progress";
+                            var statusColor = status switch
+                            {
+                                "Upcoming" => "#3b82f6",
+                                "In Progress" => "#10b981",
+                                "Completed" => "#6b7280",
+                                _ => "#6b7280"
+                            };
+                            var statusIcon = status switch
+                            {
+                                "Upcoming" => "fa-clock",
+                                "In Progress" => "fa-play-circle",
+                                "Completed" => "fa-check-circle",
+                                _ => "fa-question-circle"
+                            };
+                        }
+                        <span style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(@statusColor, 0.1); color: @statusColor; padding: 0.5rem 1rem; border-radius: var(--radius); font-weight: 600;">
+                            <i class="fas @statusIcon"></i> @status
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dates Section -->
+            <div style="padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius); margin-bottom: 2rem; border-left: 4px solid var(--primary);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <i class="fas fa-calendar-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Start Date & Time
+                        </label>
+                        <div style="margin-top: 0.75rem; font-size: 1rem; color: var(--gray-900); font-weight: 500;">
+                            @Model.StartDateTime.ToString("dddd, MMMM dd, yyyy")
+                        </div>
+                        <div style="color: var(--gray-600); font-size: 0.875rem;">
+                            @Model.StartDateTime.ToString("hh:mm tt")
+                        </div>
+                    </div>
+                    <div>
+                        <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                            <i class="fas fa-calendar-times" style="color: var(--primary); margin-right: 0.5rem;"></i>End Date & Time
+                        </label>
+                        <div style="margin-top: 0.75rem; font-size: 1rem; color: var(--gray-900); font-weight: 500;">
+                            @Model.EndDateTime.ToString("dddd, MMMM dd, yyyy")
+                        </div>
+                        <div style="color: var(--gray-600); font-size: 0.875rem;">
+                            @Model.EndDateTime.ToString("hh:mm tt")
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div style="margin-bottom: 2rem; padding: 1.5rem; background: var(--gray-50); border-radius: var(--radius); border-left: 4px solid var(--accent);">
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-edit" style="color: var(--primary); margin-right: 0.5rem;"></i>Description
+                    </label>
+                    <div style="margin-top: 1rem; line-height: 1.6; color: var(--gray-700); white-space: pre-wrap;">@Model.Description</div>
+                </div>
+            }
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 2px solid var(--gray-200);">
+                <a asp-action="Edit" asp-route-id="@Model.EventId" class="btn btn-primary" style="flex: 1; min-width: 150px;">
+                    <i class="fas fa-edit" style="margin-right: 0.5rem;"></i> Edit Event
+                </a>
+                <a asp-action="Index" class="btn btn-secondary" style="flex: 1; min-width: 150px;">
+                    <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

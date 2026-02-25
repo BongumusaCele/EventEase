@@ -1,10 +1,12 @@
 ﻿using EventEase.Data;
 using EventEase.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventEase.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly EventEaseContext _contextEventEase;

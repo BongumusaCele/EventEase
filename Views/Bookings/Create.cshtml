@@ -1,0 +1,112 @@
+﻿@model EventEase.Models.Dtos.BookingForm
+@{
+    ViewData["Title"] = "Create Booking";
+}
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div class="page-header" style="text-align: center; margin-bottom: 3rem;">
+        <h1><i class="fas fa-clipboard-list" style="color: var(--primary); margin-right: 0.5rem;"></i>Create New Booking</h1>
+        <p>Reserve the perfect venue for your next event</p>
+    </div>
+
+    <div class="card">
+        <div style="padding: 2rem;">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
+                    @Html.ValidationSummary(false)
+                </div>
+            }
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-building"></i></span> Select Venue
+                    </label>
+                    <select asp-for="VenueId" asp-items="Model.Venues" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Choose a venue --</option>
+                    </select>
+                    <small>Pick the venue where this booking will be held</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-calendar-alt"></i></span> Select Event
+                    </label>
+                    <select asp-for="EventId" asp-items="Model.Events" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Choose an event --</option>
+                    </select>
+                    <small>Which event is this booking for?</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-user"></i></span> Select Customer
+                    </label>
+                    <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Choose a customer --</option>
+                    </select>
+                    <small>Who is making this booking?</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-user-tie"></i></span> Booking Specialist
+                    </label>
+                    <select asp-for="UserId" asp-items="Model.Users" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Assign specialist --</option>
+                    </select>
+                    <small>Who is managing this booking?</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-calendar-alt"></i></span> Start Date & Time
+                    </label>
+                    <input asp-for="StartDateTime" type="datetime-local" class="form-control" 
+                           placeholder="Select start date and time"
+                           value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                    <small>When does the booking begin?</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-clock"></i></span> End Date & Time
+                    </label>
+                    <input asp-for="EndDateTime" type="datetime-local" class="form-control" 
+                           placeholder="Select end date and time"
+                           value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                    <small>When does the booking end?</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span style="font-size: 1.2rem;"><i class="fas fa-check-circle"></i></span> Booking Status
+                    </label>
+                    <select asp-for="Status" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
+                        <option value="">-- Select status --</option>
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Confirmed">✔️ Confirmed</option>
+                        <option value="Completed">✨ Completed</option>
+                        <option value="Cancelled">❌ Cancelled</option>
+                    </select>
+                    <small>What's the current status of this booking?</small>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" style="flex: 1; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%); color: white; border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);">
+                        ✨ Create Booking
+                    </button>
+                    <a asp-action="Index" style="flex: 1; padding: 0.875rem 1.5rem; background-color: var(--gray-200); color: var(--gray-800); border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.3s ease;">
+                        ← Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
