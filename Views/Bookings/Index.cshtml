@@ -9,7 +9,7 @@
         <div>
             <h1>📋 Booking Management</h1>
             <p>Track and manage all event bookings</p>
-        </div>
+</div>
         <a asp-action="Create" class="btn btn-primary btn-large">
             <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> New Booking
         </a>
@@ -33,22 +33,22 @@
     <div class="card">
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
+    <thead>
+        <tr>
+            <th>ID</th>
                         <th>🏢 Venue</th>
                         <th>🎉 Event</th>
                         <th>👤 Customer</th>
                         <th>📅 Start Date</th>
                         <th>📅 End Date</th>
-                        <th>Status</th>
+            <th>Status</th>
                         <th style="text-align: center;">⚙️ Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        </tr>
+    </thead>
+    <tbody>
                     @foreach (var booking in Model)
-                    {
-                        <tr>
+        {
+            <tr>
                             <td><strong>#@booking.BookingId</strong></td>
                             <td>@booking.Venue?.Name</td>
                             <td>@booking.Event?.Name</td>
@@ -90,11 +90,11 @@
                                         🗑️ Delete
                                     </a>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
         </div>
     </div>
 }

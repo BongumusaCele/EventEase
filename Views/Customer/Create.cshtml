@@ -17,7 +17,7 @@
                 <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
                     <strong>⚠️ Please fix the errors below:</strong>
                     @Html.ValidationSummary(false)
-                </div>
+    </div>
             }
 
             <form asp-action="Create" method="post">
@@ -30,7 +30,7 @@
                     <input asp-for="Name" class="form-control" placeholder="John Doe" />
                     <span asp-validation-for="Name" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Customer's full name</small>
-                </div>
+    </div>
 
                 <!-- Email -->
                 <div class="form-group">
@@ -40,7 +40,7 @@
                     <input asp-for="Email" type="email" class="form-control" placeholder="john@example.com" />
                     <span asp-validation-for="Email" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Email for communication and notifications</small>
-                </div>
+    </div>
 
                 <!-- Phone -->
                 <div class="form-group">
@@ -61,7 +61,7 @@
                         Cancel
                     </a>
                 </div>
-            </form>
+</form>
         </div>
     </div>
 

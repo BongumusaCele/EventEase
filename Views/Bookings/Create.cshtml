@@ -15,7 +15,7 @@
             {
                 <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
                     @Html.ValidationSummary(false)
-                </div>
+        </div>
             }
 
             <form asp-action="Create" method="post">
@@ -28,7 +28,7 @@
                         <option value="">-- Choose a venue --</option>
                     </select>
                     <small>Pick the venue where this booking will be held</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -38,7 +38,7 @@
                         <option value="">-- Choose an event --</option>
                     </select>
                     <small>Which event is this booking for?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -58,27 +58,27 @@
                         <option value="">-- Assign specialist --</option>
                     </select>
                     <small>Who is managing this booking?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
                         <span style="font-size: 1.2rem;"><i class="fas fa-calendar-alt"></i></span> Start Date & Time
                     </label>
-                    <input asp-for="StartDateTime" type="datetime-local" class="form-control" 
+            <input asp-for="StartDateTime" type="datetime-local" class="form-control"
                            placeholder="Select start date and time"
-                           value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                   value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
                     <small>When does the booking begin?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
                         <span style="font-size: 1.2rem;"><i class="fas fa-clock"></i></span> End Date & Time
                     </label>
-                    <input asp-for="EndDateTime" type="datetime-local" class="form-control" 
+            <input asp-for="EndDateTime" type="datetime-local" class="form-control"
                            placeholder="Select end date and time"
-                           value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                   value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
                     <small>When does the booking end?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -92,7 +92,7 @@
                         <option value="Cancelled">❌ Cancelled</option>
                     </select>
                     <small>What's the current status of this booking?</small>
-                </div>
+    </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" style="flex: 1; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%); color: white; border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);">
@@ -102,7 +102,7 @@
                         ← Cancel
                     </a>
                 </div>
-            </form>
+</form>
         </div>
     </div>
 </div>

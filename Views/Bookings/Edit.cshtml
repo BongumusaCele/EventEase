@@ -21,7 +21,7 @@
 
             <form asp-action="Edit" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="BookingId" />
+    <input type="hidden" asp-for="BookingId" />
 
                 <div class="form-group">
                     <label class="form-label">
@@ -31,7 +31,7 @@
                         <option value="">-- Choose a venue --</option>
                     </select>
                     <small>Pick the venue where this booking will be held</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -41,7 +41,7 @@
                         <option value="">-- Choose an event --</option>
                     </select>
                     <small>Which event is this booking for?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -51,7 +51,7 @@
                         <option value="">-- Choose a customer --</option>
                     </select>
                     <small>Who is making this booking?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
@@ -61,23 +61,23 @@
                         <option value="">-- Assign specialist --</option>
                     </select>
                     <small>Who is managing this booking?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
                         <span style="font-size: 1.2rem;"><i class="fas fa-calendar-alt"></i></span> Start Date & Time
                     </label>
-                    <input asp-for="StartDateTime" type="datetime-local" class="form-control" 
-                           value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+            <input asp-for="StartDateTime" type="datetime-local" class="form-control"
+                   value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
                     <small>When does the booking begin?</small>
-                </div>
+        </div>
 
                 <div class="form-group">
                     <label class="form-label">
                         <span style="font-size: 1.2rem;"><i class="fas fa-clock"></i></span> End Date & Time
                     </label>
-                    <input asp-for="EndDateTime" type="datetime-local" class="form-control" 
-                           value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+            <input asp-for="EndDateTime" type="datetime-local" class="form-control"
+                   value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
                     <small>When does the booking end?</small>
                 </div>
 
@@ -105,12 +105,12 @@
                 </div>
             </form>
         </div>
-    </div>
+        </div>
 
     <div style="text-align: center; margin-top: 2rem;">
         <a asp-action="Index" style="color: var(--primary); font-weight: 500;">← Back to Bookings</a>
+        </div>
     </div>
-</div>
 
 <style>
     .form-group {

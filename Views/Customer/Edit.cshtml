@@ -21,7 +21,7 @@
 
             <form asp-action="Edit" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="CustomerId" />
+    <input type="hidden" asp-for="CustomerId" />
 
                 <!-- Customer Name -->
                 <div class="form-group">
@@ -31,7 +31,7 @@
                     <input asp-for="Name" class="form-control" placeholder="John Doe" />
                     <span asp-validation-for="Name" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Customer's full name</small>
-                </div>
+    </div>
 
                 <!-- Email -->
                 <div class="form-group">
@@ -41,7 +41,7 @@
                     <input asp-for="Email" type="email" class="form-control" placeholder="john@example.com" />
                     <span asp-validation-for="Email" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Email for communication and notifications</small>
-                </div>
+    </div>
 
                 <!-- Phone -->
                 <div class="form-group">
@@ -51,7 +51,7 @@
                     <input asp-for="Phone" type="tel" class="form-control" placeholder="+1 (555) 123-4567" />
                     <span asp-validation-for="Phone" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Best contact number (optional)</small>
-                </div>
+    </div>
 
                 <!-- Form Actions -->
                 <div style="display: flex; gap: 1rem; margin-top: 2rem; margin-bottom: 0;">
@@ -62,7 +62,7 @@
                         Cancel
                     </a>
                 </div>
-            </form>
+</form>
         </div>
     </div>
 

@@ -9,7 +9,7 @@
         <div>
             <h1>👥 Customer Management</h1>
             <p>View and manage all your event customers</p>
-        </div>
+</div>
         <a asp-action="Create" class="btn btn-primary btn-large">
             <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> Add Customer
         </a>
@@ -32,18 +32,18 @@
     <div class="card">
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr>
+    <thead>
+        <tr>
                         <th>👤 Name</th>
                         <th>📧 Email</th>
                         <th>📱 Phone</th>
                         <th style="text-align: center;">⚙️ Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        </tr>
+    </thead>
+    <tbody>
                     @foreach (var customer in Model)
-                    {
-                        <tr>
+        {
+            <tr>
                             <td>
                                 <strong>@customer.Name</strong>
                             </td>
@@ -61,11 +61,11 @@
                                         🗑️ Delete
                                     </a>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
         </div>
     </div>
 }

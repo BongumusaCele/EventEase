@@ -21,7 +21,7 @@
 
             <form asp-action="Edit" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="VenueId" />
+    <input type="hidden" asp-for="VenueId" />
 
                 <!-- Venue Name -->
                 <div class="form-group">
@@ -31,7 +31,7 @@
                     <input asp-for="Name" class="form-control" placeholder="e.g., Grand Hotel Ballroom" />
                     <span asp-validation-for="Name" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Give your venue a memorable name</small>
-                </div>
+    </div>
 
                 <!-- Location -->
                 <div class="form-group">
@@ -41,7 +41,7 @@
                     <input asp-for="Location" class="form-control" placeholder="e.g., 123 Main Street, Downtown" />
                     <span asp-validation-for="Location" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Where is your venue located?</small>
-                </div>
+    </div>
 
                 <!-- Capacity -->
                 <div class="form-group">
@@ -51,7 +51,7 @@
                     <input asp-for="Capacity" type="number" class="form-control" placeholder="e.g., 500" />
                     <span asp-validation-for="Capacity" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">How many guests can your venue accommodate?</small>
-                </div>
+    </div>
 
                 <!-- Image URL -->
                 <div class="form-group">
@@ -61,7 +61,7 @@
                     <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/venue.jpg" />
                     <span asp-validation-for="ImageUrl" class="form-error"></span>
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Link to a beautiful photo of your venue</small>
-                </div>
+    </div>
 
                 <!-- Form Actions -->
                 <div style="display: flex; gap: 1rem; margin-top: 2rem; margin-bottom: 0;">
@@ -72,7 +72,7 @@
                         Cancel
                     </a>
                 </div>
-            </form>
+</form>
         </div>
     </div>
 

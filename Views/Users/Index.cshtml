@@ -9,7 +9,7 @@
         <div>
             <h1>⚙️ User Management</h1>
             <p>Manage system users and their roles</p>
-        </div>
+</div>
         <a asp-action="Create" class="btn btn-primary btn-large">
             <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> Add User
         </a>
@@ -34,17 +34,17 @@
     <div class="card">
         <div class="table-wrapper">
             <table>
-                <thead>
-                    <tr>
+    <thead>
+        <tr>
                         <th>📧 Email</th>
                         <th>🎭 Role</th>
                         <th>Status</th>
                         <th style="text-align: center;">⚙️ Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        </tr>
+    </thead>
+    <tbody>
                     @foreach (var user in Model)
-                    {
+        {
                         var roleIcon = user.Role switch
                         {
                             "Admin" => "👑",
@@ -61,7 +61,7 @@
                             _ => "badge-secondary"
                         };
 
-                        <tr>
+            <tr>
                             <td>
                                 <strong>@user.Email</strong>
                             </td>
@@ -87,11 +87,11 @@
                                         🗑️ Delete
                                     </a>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
         </div>
     </div>
 }
