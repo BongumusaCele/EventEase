@@ -1,0 +1,139 @@
+EventEase Event Management System - License & Attributions
+
+═════════════════════════════════════════════════════════════════════════════
+
+PROJECT LICENSE:
+
+EventEase is an educational project developed as part of a Cloud Development
+course. The application and source code are provided as-is for educational
+and non-commercial purposes.
+
+═════════════════════════════════════════════════════════════════════════════
+
+THIRD-PARTY LICENSES:
+
+1. ASP.NET CORE FRAMEWORK
+   ═══════════════════════════════════════════════════════════════════════════
+   License: MIT License
+   Source: https://github.com/dotnet/aspnetcore
+   Copyright: .NET Foundation and Contributors
+   
+   MIT License:
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation
+   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+
+2. ENTITY FRAMEWORK CORE
+   ═══════════════════════════════════════════════════════════════════════════
+   Package: Microsoft.EntityFrameworkCore
+   Version: 10.0.3
+   License: MIT License
+   Source: https://github.com/dotnet/efcore
+   Copyright: .NET Foundation and Contributors
+   
+   MIT License (See LICENSE text above)
+
+3. ENTITY FRAMEWORK CORE SQL SERVER
+   ═══════════════════════════════════════════════════════════════════════════
+   Package: Microsoft.EntityFrameworkCore.SqlServer
+   Version: 10.0.3
+   License: MIT License
+   Source: https://github.com/dotnet/efcore
+   Copyright: .NET Foundation and Contributors
+   
+   MIT License (See LICENSE text above)
+
+4. BCRYPT.NET-NEXT
+   ═══════════════════════════════════════════════════════════════════════════
+   Package: BCrypt.Net-Next
+   Version: 4.0.3
+   License: MIT License
+   Source: https://github.com/BcryptNet/bcrypt.net
+   Copyright: Chris McKee, Ryan D. Shillington, and Contributors
+   
+   MIT License (See LICENSE text above)
+
+5. FONT AWESOME
+   ═══════════════════════════════════════════════════════════════════════════
+   Name: Font Awesome Icons
+   Version: 6.4.0
+   License: CC BY 4.0 (Creative Commons Attribution 4.0 International)
+   CDN: https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/
+   Source: https://fontawesome.com
+   Copyright: Fonticons, Inc.
+   
+   CC BY 4.0 License:
+   You are free to:
+   - Share — copy and redistribute the material in any medium or format
+   - Adapt — remix, transform, and build upon the material for any purpose,
+     even commercially.
+   
+   Under the following terms:
+   - Attribution — You must give appropriate credit, provide a link to the
+     license, and indicate if changes were made. You may do so in any
+     reasonable manner, but not in any way that suggests the licensor endorses
+     you or your use.
+   
+   Full License: https://creativecommons.org/licenses/by/4.0/
+
+═════════════════════════════════════════════════════════════════════════════
+
+ATTRIBUTION REQUIREMENTS:
+
+When using or distributing EventEase, please include appropriate attributions
+for the third-party components:
+
+1. ASP.NET Core - Include MIT License notice
+2. Entity Framework Core - Include MIT License notice
+3. BCrypt.Net-Next - Include MIT License notice
+4. Font Awesome - Include link to https://fontawesome.com
+
+═════════════════════════════════════════════════════════════════════════════
+
+DOCUMENTATION REFERENCES:
+
+All design patterns, authentication mechanisms, and coding practices follow
+official Microsoft documentation:
+
+- ASP.NET Core Documentation:
+  https://learn.microsoft.com/en-us/aspnet/core/
+
+- Entity Framework Core Documentation:
+  https://learn.microsoft.com/en-us/ef/core/
+
+- Authentication in ASP.NET Core:
+  https://learn.microsoft.com/en-us/aspnet/core/security/authentication
+
+- Data Annotations Reference:
+  https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations
+
+═════════════════════════════════════════════════════════════════════════════
+
+DISCLAIMER:
+
+This project is provided AS-IS for educational purposes. The authors are not
+liable for any damages or issues arising from the use of this software.
+
+All third-party components retain their original licenses and copyright notices.
+
+═════════════════════════════════════════════════════════════════════════════
+
+For detailed attributions and credits, see ATTRIBUTIONS.md
+
+═════════════════════════════════════════════════════════════════════════════
+Created: February 25, 2025
+Last Updated: February 25, 2025

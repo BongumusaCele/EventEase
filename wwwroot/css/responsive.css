@@ -1,3 +1,28 @@
+/* ===== RESPONSIVE DESIGN CSS ===== */
+/*
+  EventEase Responsive Design System
+
+  Approach: Mobile-first responsive design
+  Pattern: CSS Media Queries with multiple breakpoints
+
+  Breakpoints:
+  - Mobile: 320px - 640px
+  - Small Tablet: 641px - 768px
+  - Medium Tablet: 769px - 1024px
+  - Desktop: 1025px+
+  - Extra Large: 1440px+
+  - Touch Devices: hover: none and pointer: coarse
+  - Print: Print media type
+
+  Reference: https://www.w3schools.com/css/css_rwd_intro.asp
+  Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/@media
+
+  Design inspired by modern responsive web design best practices
+
+  Author: EventEase Team
+  Created: 2025
+*/
+
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Mobile First Approach: 320px - 640px */

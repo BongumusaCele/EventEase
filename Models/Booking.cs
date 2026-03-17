@@ -3,6 +3,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventEase.Models
 {
+    /// <summary>
+    /// Booking Model
+    /// 
+    /// Represents an event booking in the EventEase system.
+    /// 
+    /// Validation Pattern:
+    /// Data Annotations are used for declarative validation.
+    /// Reference: https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations
+    /// 
+    /// Framework: Entity Framework Core (MIT License)
+    /// Reference: https://github.com/dotnet/efcore
+    /// 
+    /// Attributes Used:
+    /// - [Required]: Marks field as mandatory
+    /// - [StringLength]: Constrains string field length
+    /// - [ForeignKey]: Marks foreign key relationship
+    /// 
+    /// Author: EventEase Team
+    /// Created: 2025
+    /// </summary>
     public class Booking
     {
         public int BookingId { get; set; }

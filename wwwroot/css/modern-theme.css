@@ -1,3 +1,26 @@
+/* ===== EVENTEASE MODERN UI THEME ===== */
+/*
+  EventEase Modern Dashboard Theme
+
+  Design Pattern: Modern SaaS Dashboard Layout
+  - Sidebar Navigation: Fixed left sidebar with collapsible mobile view
+  - Responsive Design: Mobile-first approach with tablet and desktop breakpoints
+  - Color System: CSS variables for consistent theming
+  - Inspiration: Common SaaS dashboard patterns and Material Design principles
+
+  Font Awesome Icons (v6.4.0) used throughout
+  License: CC BY 4.0
+  Source: https://fontawesome.com
+
+  Third-party Libraries:
+  - ASP.NET Core 10 (MIT License)
+  - Entity Framework Core (MIT License)
+  - BCrypt.Net-Next (MIT License)
+
+  Author: EventEase Team
+  Created: 2025
+*/
+
 /* ===== MODERN UI THEME ===== */
 :root {
   /* Color Palette */

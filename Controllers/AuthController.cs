@@ -8,6 +8,24 @@ using System.Security.Claims;
 
 namespace EventEase.Controllers
 {
+    /// <summary>
+    /// Authentication Controller
+    /// 
+    /// Handles user login, registration, logout, and session management.
+    /// 
+    /// Authentication Pattern: Cookie-based Authentication
+    /// Reference: https://learn.microsoft.com/en-us/aspnet/core/security/authentication
+    /// 
+    /// Password Hashing: BCrypt.Net-Next (v4.0.3)
+    /// License: MIT
+    /// Reference: https://github.com/BcryptNet/bcrypt.net
+    /// 
+    /// Framework: ASP.NET Core (MIT License)
+    /// Database: Entity Framework Core (MIT License)
+    /// 
+    /// Author: EventEase Team
+    /// Created: 2025
+    /// </summary>
     public class AuthController : Controller
     {
         private readonly EventEaseContext _context;
