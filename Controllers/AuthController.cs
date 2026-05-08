@@ -54,6 +54,7 @@ namespace EventEase.Controllers
             {
                 if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 {
+                    ViewData["Email"] = email;
                     ModelState.AddModelError("", "Email and password are required.");
                     return View();
                 }
@@ -62,6 +63,7 @@ namespace EventEase.Controllers
 
                 if (user == null || !VerifyPassword(password, user.Password))
                 {
+                    ViewData["Email"] = email;
                     ModelState.AddModelError("", "Invalid email or password.");
                     _logger.LogWarning($"Failed login attempt for email: {email}");
                     return View();
@@ -101,6 +103,7 @@ namespace EventEase.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during login");
+                ViewData["Email"] = email;
                 ModelState.AddModelError("", "An error occurred during login. Please try again.");
                 return View();
             }
