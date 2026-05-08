@@ -11,6 +11,13 @@
 
     <div class="card">
         <div style="padding: 2rem;">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <div style="margin-bottom: 2rem; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); max-height: 300px;">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            }
+
             <!-- Event Name -->
             <div style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 2px solid var(--gray-200);">
                 <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">

@@ -14,13 +14,10 @@
         <div style="padding: 2rem;">
             @if (!ViewData.ModelState.IsValid)
             {
-                <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
-                    <strong>⚠️ Please fix the errors below:</strong>
-                    @Html.ValidationSummary(false)
-    </div>
+                <partial name="_ValidationAlert" />
             }
 
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
                 <!-- Venue Name -->
                 <div class="form-group">
@@ -37,9 +34,13 @@
                     <label class="form-label" asp-for="Location">
                         <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i> Location
                     </label>
-                    <input asp-for="Location" class="form-control" placeholder="e.g., 123 Main Street, Downtown" />
+                    <input asp-for="Location"
+                           class="form-control"
+                           placeholder="Search for a South African address or venue"
+                           autocomplete="off"
+                           data-address-search />
                     <span asp-validation-for="Location" class="form-error"></span>
-                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Where is your venue located?</small>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Start typing and select a South African address from the results.</small>
     </div>
 
                 <!-- Capacity -->
@@ -52,20 +53,21 @@
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">How many guests can your venue accommodate?</small>
                 </div>
 
-                <!-- Image URL -->
+                <!-- Image Upload -->
                 <div class="form-group">
-                    <label class="form-label" asp-for="ImageUrl">
-                        <i class="fas fa-image" style="color: var(--primary); margin-right: 0.5rem;"></i> Image URL
+                    <label class="form-label" for="imageFile">
+                        <i class="fas fa-image" style="color: var(--primary); margin-right: 0.5rem;"></i> Venue Image <span style="color: var(--danger);">*</span>
                     </label>
-                    <input asp-for="ImageUrl" class="form-control" placeholder="https://example.com/venue.jpg" />
+                    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp" />
+                    <input type="hidden" asp-for="ImageUrl" />
                     <span asp-validation-for="ImageUrl" class="form-error"></span>
-                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Link to a beautiful photo of your venue</small>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Required. Upload a JPG, PNG, GIF, or WEBP image to Azure Storage.</small>
     </div>
 
                 <!-- Form Actions -->
                 <div style="display: flex; gap: 1rem; margin-top: 2rem; margin-bottom: 0;">
                     <button type="submit" class="btn btn-primary btn-large" style="flex: 1;">
-                        ✨ Create Venue
+                        <i class="fas fa-plus-circle" style="margin-right: 0.5rem;"></i>Create Venue
                     </button>
                     <a asp-action="Index" class="btn btn-secondary btn-large" style="flex: 1;">
                         Cancel
@@ -77,7 +79,7 @@
 
 
     <div style="text-align: center; margin-top: 2rem;">
-        <a asp-action="Index" style="color: var(--primary); font-weight: 500;">← Back to Venues</a>
+        <a asp-action="Index" style="color: var(--primary); font-weight: 500;"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>Back to Venues</a>
     </div>
 </div>
 

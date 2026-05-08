@@ -16,9 +16,21 @@ namespace EventEase.Controllers
             _contextEventEase = contextEventEase;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search)
         {
-            var customers = await _contextEventEase.Customers.ToListAsync();
+            var query = _contextEventEase.Customers.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var trimmedSearch = search.Trim();
+                query = query.Where(c =>
+                    c.Name.Contains(trimmedSearch) ||
+                    c.Email.Contains(trimmedSearch) ||
+                    (c.Phone != null && c.Phone.Contains(trimmedSearch)));
+            }
+
+            var customers = await query.OrderBy(c => c.Name).ToListAsync();
+            ViewBag.SearchTerm = search;
             return View(customers);
         }
 
@@ -38,10 +50,13 @@ namespace EventEase.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Customer customer)
         {
+            await ValidateCustomerAsync(customer);
             if (!ModelState.IsValid) { return View(customer); }
 
+            customer.Phone ??= string.Empty;
             _contextEventEase.Add(customer);
             await _contextEventEase.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Customer created successfully.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -61,10 +76,13 @@ namespace EventEase.Controllers
         {
             if (id != customer.CustomerId) { return NotFound(); }
 
+            await ValidateCustomerAsync(customer);
             if (!ModelState.IsValid) { return View(customer); }
 
+            customer.Phone ??= string.Empty;
             _contextEventEase.Update(customer);
             await _contextEventEase.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Customer updated successfully.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -76,6 +94,7 @@ namespace EventEase.Controllers
 
             if (item == null) { return NotFound(); }
 
+            ViewBag.HasLinkedBookings = await HasLinkedBookingsAsync(item.CustomerId);
             return View(item);
         }
 
@@ -86,9 +105,44 @@ namespace EventEase.Controllers
 
             if (item == null) { return NotFound(); }
 
-            _contextEventEase.Customers.Remove(item);
-            await _contextEventEase.SaveChangesAsync();
+            if (await HasLinkedBookingsAsync(id))
+            {
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+
+            try
+            {
+                _contextEventEase.Customers.Remove(item);
+                await _contextEventEase.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                return RedirectToAction(nameof(Delete), new { id });
+            }
+
+            TempData["SuccessMessage"] = "Customer deleted successfully.";
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task ValidateCustomerAsync(Customer customer)
+        {
+            if (!string.IsNullOrWhiteSpace(customer.Email))
+            {
+                var normalizedEmail = customer.Email.Trim();
+                var emailExists = await _contextEventEase.Customers.AnyAsync(c =>
+                    c.CustomerId != customer.CustomerId &&
+                    c.Email == normalizedEmail);
+
+                if (emailExists)
+                {
+                    ModelState.AddModelError(nameof(Customer.Email), "A customer with this email already exists.");
+                }
+            }
+        }
+
+        private async Task<bool> HasLinkedBookingsAsync(int customerId)
+        {
+            return await _contextEventEase.Bookings.AnyAsync(b => b.CustomerId == customerId);
         }
     }
 }

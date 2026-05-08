@@ -11,6 +11,11 @@
 
     <div class="card">
         <div style="padding: 2rem;">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <partial name="_ValidationAlert" />
+            }
+
             <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
@@ -26,8 +31,8 @@
                     <label class="form-label">
                         <span style="font-size: 1.2rem;"><i class="fas fa-lock"></i></span> Password
                     </label>
-                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" />
-                    <small>Create a strong password (minimum 8 characters recommended)</small>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <small>Create a password with at least 6 characters</small>
                     <span asp-validation-for="Password" style="color: var(--danger); font-size: 0.875rem; display: block; margin-top: 0.25rem;"></span>
     </div>
 
@@ -45,16 +50,12 @@
                     <span asp-validation-for="Role" style="color: var(--danger); font-size: 0.875rem; display: block; margin-top: 0.25rem;"></span>
     </div>
 
-                <div style="background-color: #eff6ff; border-left: 4px solid var(--primary); padding: 1rem; border-radius: var(--radius); margin: 1.5rem 0; font-size: 0.9rem;">
-                    <strong><i class="fas fa-lock"></i> Security Note:</strong> Passwords must be securely hashed before storage. Never store plain text passwords in production.
-    </div>
-
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" style="flex: 1; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);">
-                        ✨ Create User
+                        <i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>Create User
                     </button>
                     <a asp-action="Index" style="flex: 1; padding: 0.875rem 1.5rem; background-color: var(--gray-200); color: var(--gray-800); border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.3s ease;">
-                        ← Cancel
+                        <i class="fas fa-times" style="margin-right: 0.5rem;"></i>Cancel
                     </a>
                 </div>
 </form>

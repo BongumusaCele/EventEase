@@ -13,9 +13,7 @@
         <div style="padding: 2rem;">
             @if (!ViewData.ModelState.IsValid)
             {
-                <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
-                    @Html.ValidationSummary(false)
-        </div>
+                <partial name="_ValidationAlert" />
             }
 
             <form asp-action="Create" method="post">
@@ -27,6 +25,7 @@
                     <select asp-for="VenueId" asp-items="Model.Venues" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
                         <option value="">-- Choose a venue --</option>
                     </select>
+                    <span asp-validation-for="VenueId" class="form-error"></span>
                     <small>Pick the venue where this booking will be held</small>
         </div>
 
@@ -37,6 +36,7 @@
                     <select asp-for="EventId" asp-items="Model.Events" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
                         <option value="">-- Choose an event --</option>
                     </select>
+                    <span asp-validation-for="EventId" class="form-error"></span>
                     <small>Which event is this booking for?</small>
         </div>
 
@@ -47,6 +47,7 @@
                     <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
                         <option value="">-- Choose a customer --</option>
                     </select>
+                    <span asp-validation-for="CustomerId" class="form-error"></span>
                     <small>Who is making this booking?</small>
                 </div>
 
@@ -57,6 +58,7 @@
                     <select asp-for="UserId" asp-items="Model.Users" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
                         <option value="">-- Assign specialist --</option>
                     </select>
+                    <span asp-validation-for="UserId" class="form-error"></span>
                     <small>Who is managing this booking?</small>
         </div>
 
@@ -66,7 +68,8 @@
                     </label>
             <input asp-for="StartDateTime" type="datetime-local" class="form-control"
                            placeholder="Select start date and time"
-                   value="@Model.StartDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                   value="@Model.StartDateTime?.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="StartDateTime" class="form-error"></span>
                     <small>When does the booking begin?</small>
         </div>
 
@@ -76,7 +79,8 @@
                     </label>
             <input asp-for="EndDateTime" type="datetime-local" class="form-control"
                            placeholder="Select end date and time"
-                   value="@Model.EndDateTime.ToString("yyyy-MM-ddTHH:mm")" />
+                   value="@Model.EndDateTime?.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="EndDateTime" class="form-error"></span>
                     <small>When does the booking end?</small>
         </div>
 
@@ -86,26 +90,36 @@
                     </label>
                     <select asp-for="Status" class="form-control" style="padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: var(--radius); cursor: pointer;">
                         <option value="">-- Select status --</option>
-                        <option value="Pending">⏳ Pending</option>
-                        <option value="Confirmed">✔️ Confirmed</option>
-                        <option value="Completed">✨ Completed</option>
-                        <option value="Cancelled">❌ Cancelled</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                     </select>
+                    <span asp-validation-for="Status" class="form-error"></span>
                     <small>What's the current status of this booking?</small>
     </div>
 
                 <div style="display: flex; gap: 1rem; margin-top: 2rem;">
                     <button type="submit" style="flex: 1; padding: 0.875rem 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%); color: white; border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);">
-                        ✨ Create Booking
+                        <i class="fas fa-plus-circle" style="margin-right: 0.5rem;"></i>Create Booking
                     </button>
                     <a asp-action="Index" style="flex: 1; padding: 0.875rem 1.5rem; background-color: var(--gray-200); color: var(--gray-800); border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; transition: all 0.3s ease;">
-                        ← Cancel
+                        <i class="fas fa-times" style="margin-right: 0.5rem;"></i>Cancel
                     </a>
                 </div>
 </form>
         </div>
     </div>
 </div>
+
+<style>
+    .form-error {
+        color: var(--danger);
+        display: block;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

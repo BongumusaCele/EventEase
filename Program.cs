@@ -37,15 +37,27 @@
 */
 
 using EventEase.Data;
+using EventEase.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor(
+        (value, fieldName) => "Please enter a valid value.");
+    options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor(
+        fieldName => "This field is required.");
+    options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(
+        () => "This field is required.");
+    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+        fieldName => "This field is required.");
+});
 builder.Services.AddDbContext<EventEaseContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 
 // Add Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

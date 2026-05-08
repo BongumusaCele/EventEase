@@ -18,15 +18,23 @@ namespace EventEase.Controllers
             _contextEventEase = contextEventEase;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search)
         {
-            var items = await _contextEventEase.Bookings
-                .Include(b => b.Venue)
-                .Include(b => b.Event)
-                .Include(b => b.Customer)
-                .Include(b => b.User)
+            var query = _contextEventEase.BookingDetailsView.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var trimmedSearch = search.Trim();
+                query = int.TryParse(trimmedSearch, out var bookingId)
+                    ? query.Where(b => b.BookingId == bookingId || b.EventName.Contains(trimmedSearch))
+                    : query.Where(b => b.EventName.Contains(trimmedSearch));
+            }
+
+            var items = await query
+                .OrderByDescending(b => b.BookingId)
                 .ToListAsync();
 
+            ViewBag.SearchTerm = search;
             return View(items);
         }
 
@@ -59,21 +67,24 @@ namespace EventEase.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookingForm vm)
         {
-            if (vm.EndDateTime <= vm.StartDateTime)
+            if (vm.StartDateTime.HasValue && vm.EndDateTime.HasValue && vm.EndDateTime <= vm.StartDateTime)
                 ModelState.AddModelError("", "End date/time must be after Start date/time.");
+
+            if (await HasVenueConflictAsync(vm.VenueId, vm.StartDateTime, vm.EndDateTime))
+                ModelState.AddModelError("", "This venue is already booked during the selected date and time.");
 
             if (!ModelState.IsValid)
             { return View(await BuildVmAsync(vm)); }
 
             var booking = new Booking
             {
-                StartDateTime = vm.StartDateTime,
-                EndDateTime = vm.EndDateTime,
+                StartDateTime = vm.StartDateTime.GetValueOrDefault(),
+                EndDateTime = vm.EndDateTime.GetValueOrDefault(),
                 Status = vm.Status,
-                CustomerId = vm.CustomerId,
-                VenueId = vm.VenueId,
-                EventId = vm.EventId,
-                UserId = vm.UserId
+                CustomerId = vm.CustomerId.GetValueOrDefault(),
+                VenueId = vm.VenueId.GetValueOrDefault(),
+                EventId = vm.EventId.GetValueOrDefault(),
+                UserId = vm.UserId.GetValueOrDefault()
             };
 
             _contextEventEase.Add(booking);
@@ -109,8 +120,11 @@ namespace EventEase.Controllers
         {
             if (id != vm.BookingId) { return NotFound(); }
 
-            if (vm.EndDateTime <= vm.StartDateTime)
+            if (vm.StartDateTime.HasValue && vm.EndDateTime.HasValue && vm.EndDateTime <= vm.StartDateTime)
             { ModelState.AddModelError("", "End date/time must be after Start date/time."); }
+
+            if (await HasVenueConflictAsync(vm.VenueId, vm.StartDateTime, vm.EndDateTime, id))
+            { ModelState.AddModelError("", "This venue is already booked during the selected date and time."); }
 
             if (!ModelState.IsValid)
             { return View(await BuildVmAsync(vm)); }
@@ -119,13 +133,13 @@ namespace EventEase.Controllers
 
             if (booking == null) { return NotFound(); }
 
-            booking.StartDateTime = vm.StartDateTime;
-            booking.EndDateTime = vm.EndDateTime;
+            booking.StartDateTime = vm.StartDateTime.GetValueOrDefault();
+            booking.EndDateTime = vm.EndDateTime.GetValueOrDefault();
             booking.Status = vm.Status;
-            booking.CustomerId = vm.CustomerId;
-            booking.VenueId = vm.VenueId;
-            booking.EventId = vm.EventId;
-            booking.UserId = vm.UserId;
+            booking.CustomerId = vm.CustomerId.GetValueOrDefault();
+            booking.VenueId = vm.VenueId.GetValueOrDefault();
+            booking.EventId = vm.EventId.GetValueOrDefault();
+            booking.UserId = vm.UserId.GetValueOrDefault();
 
             await _contextEventEase.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -171,6 +185,21 @@ namespace EventEase.Controllers
                 .Select(u => new SelectListItem { Value = u.UserId.ToString(), Text = u.Email });
 
             return vm;
+        }
+
+        private async Task<bool> HasVenueConflictAsync(int? venueId, DateTime? startDateTime, DateTime? endDateTime, int? ignoredBookingId = null)
+        {
+            if (!venueId.HasValue || !startDateTime.HasValue || !endDateTime.HasValue || venueId.Value <= 0)
+            {
+                return false;
+            }
+
+            return await _contextEventEase.Bookings.AnyAsync(b =>
+                b.VenueId == venueId.Value &&
+                (!ignoredBookingId.HasValue || b.BookingId != ignoredBookingId.Value) &&
+                b.Status != "Cancelled" &&
+                startDateTime.Value < b.EndDateTime &&
+                b.StartDateTime < endDateTime.Value);
         }
     }
 }

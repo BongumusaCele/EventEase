@@ -1,0 +1,202 @@
+<style>
+    .confirm-delete-page {
+        max-width: 880px;
+        margin: 0 auto;
+    }
+
+    .confirm-delete-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xl);
+        overflow: hidden;
+    }
+
+    .confirm-delete-hero {
+        background: linear-gradient(135deg, #111827 0%, #4338ca 58%, #be123c 100%);
+        color: var(--white);
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1.25rem;
+        padding: 2rem;
+        position: relative;
+    }
+
+    .confirm-delete-hero::after {
+        background: rgba(255, 255, 255, 0.08);
+        content: "";
+        height: 180px;
+        position: absolute;
+        right: -60px;
+        top: -80px;
+        transform: rotate(18deg);
+        width: 240px;
+    }
+
+    .confirm-delete-icon {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: var(--radius-lg);
+        display: flex;
+        font-size: 1.45rem;
+        height: 58px;
+        justify-content: center;
+        position: relative;
+        width: 58px;
+        z-index: 1;
+    }
+
+    .confirm-delete-heading {
+        position: relative;
+        z-index: 1;
+    }
+
+    .confirm-delete-kicker {
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        margin: 0 0 0.35rem;
+        text-transform: uppercase;
+    }
+
+    .confirm-delete-heading h1 {
+        color: var(--white);
+        font-size: 2.15rem;
+        line-height: 1.1;
+        margin: 0;
+    }
+
+    .confirm-delete-heading p {
+        color: rgba(255, 255, 255, 0.82);
+        margin: 0.65rem 0 0;
+        max-width: 560px;
+    }
+
+    .confirm-delete-body {
+        padding: 2rem;
+    }
+
+    .confirm-delete-message {
+        align-items: flex-start;
+        border-radius: var(--radius);
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem 1.1rem;
+    }
+
+    .confirm-delete-message i {
+        font-size: 1.15rem;
+        margin-top: 0.15rem;
+    }
+
+    .confirm-delete-message strong {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .confirm-delete-message p {
+        margin: 0;
+    }
+
+    .confirm-delete-message.warning {
+        background: #fffbeb;
+        border-left: 4px solid var(--warning);
+        color: #92400e;
+    }
+
+    .confirm-delete-message.warning p {
+        color: #92400e;
+    }
+
+    .confirm-delete-message.blocked {
+        background: #fef2f2;
+        border-left: 4px solid var(--danger);
+        color: #991b1b;
+    }
+
+    .confirm-delete-message.blocked p {
+        color: #991b1b;
+    }
+
+    .confirm-delete-grid {
+        display: grid;
+        gap: 0.85rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1rem;
+    }
+
+    .confirm-delete-field {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius);
+        padding: 1rem;
+    }
+
+    .confirm-delete-field span {
+        color: var(--gray-500);
+        display: block;
+        font-size: 0.76rem;
+        font-weight: 800;
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+    }
+
+    .confirm-delete-field strong {
+        color: var(--gray-900);
+        display: block;
+        font-size: 1rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .confirm-delete-actions {
+        align-items: center;
+        border-top: 1px solid var(--gray-200);
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+    }
+
+    .confirm-delete-actions .btn {
+        min-height: 46px;
+        min-width: 140px;
+    }
+
+    .confirm-delete-actions .btn-danger {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        box-shadow: 0 8px 18px rgba(239, 68, 68, 0.25);
+    }
+
+    @@media (max-width: 768px) {
+        .confirm-delete-hero {
+            grid-template-columns: 1fr;
+            padding: 1.5rem;
+        }
+
+        .confirm-delete-heading h1 {
+            font-size: 1.75rem;
+        }
+
+        .confirm-delete-body {
+            padding: 1.25rem;
+        }
+
+        .confirm-delete-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .confirm-delete-actions {
+            flex-direction: column-reverse;
+        }
+
+        .confirm-delete-actions .btn {
+            width: 100%;
+        }
+    }
+</style>

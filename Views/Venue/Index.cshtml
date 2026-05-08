@@ -7,7 +7,7 @@
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <h1>🏢 Venues Management</h1>
+            <h1><i class="fas fa-building" style="color: var(--primary); margin-right: 0.5rem;"></i>Venues Management</h1>
             <p>Manage and organize all your event venues</p>
 </div>
         <a href="/Venue/Create" class="btn btn-primary btn-large">
@@ -19,7 +19,7 @@
 <!-- Search Bar -->
 <div style="margin-bottom: 2rem;">
     <form method="get" style="display: flex; gap: 1rem;">
-        <input type="text" name="search" class="form-control" placeholder="🔍 Search venues..." 
+        <input type="text" name="search" class="form-control" placeholder="Search venues..." 
                style="flex: 1; max-width: 400px;" value="@(ViewBag.SearchTerm ?? "")" />
         <button type="submit" class="btn btn-primary">Search</button>
         <a href="/Venue" class="btn btn-secondary">Clear</a>
@@ -41,7 +41,7 @@
                     }
                     else
                     {
-                        <span>🏢</span>
+                        <span><i class="fas fa-building"></i></span>
                     }
                 </div>
 
@@ -51,11 +51,11 @@
 
                     <div style="margin: 1rem 0; padding: 1rem 0; border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span style="color: var(--gray-600);">📍 Location</span>
+                            <span style="color: var(--gray-600);"><i class="fas fa-location-dot"></i> Location</span>
                             <strong>@venue.Location</strong>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--gray-600);">👥 Capacity</span>
+                            <span style="color: var(--gray-600);"><i class="fas fa-users"></i> Capacity</span>
                             <strong>@venue.Capacity people</strong>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
 else
         {
     <div class="card" style="text-align: center; padding: 3rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">🏚️</div>
+        <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-400);"><i class="fas fa-building-circle-xmark"></i></div>
         <h2>No Venues Found</h2>
         <p style="color: var(--gray-600); margin-bottom: 2rem;">Start by creating your first venue to begin managing bookings.</p>
         <a asp-action="Create" class="btn btn-primary btn-large">Create First Venue</a>

@@ -7,7 +7,7 @@
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <h1>🎉 Event Management</h1>
+            <h1><i class="fas fa-calendar-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Event Management</h1>
             <p>Create and manage all your events</p>
         </div>
         <a asp-action="Create" class="btn btn-primary btn-large">
@@ -17,14 +17,15 @@
 </div>
 
 <!-- Filter Section -->
-<div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-    <input type="text" class="form-control" placeholder="🔍 Search events..." 
-           style="flex: 1; max-width: 400px;" />
-    <select class="form-control" style="max-width: 250px;">
+<form method="get" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <input type="text" name="search" class="form-control" placeholder="Search events..." 
+           style="flex: 1; max-width: 400px;" value="@(ViewBag.SearchTerm ?? "")" />
+    <select name="venueId" asp-items="ViewBag.Venues" class="form-control" style="max-width: 250px;">
         <option value="">All Venues</option>
-        <option value="">Select a venue...</option>
     </select>
-</div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-action="Index" class="btn btn-secondary">Clear</a>
+</form>
 
 <!-- Events Table -->
 @if (Model?.Any() ?? false)
@@ -34,12 +35,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th>🎉 Event Name</th>
-                        <th>🏢 Venue</th>
-                        <th>📅 Start Date</th>
-                        <th>📅 End Date</th>
-                        <th>ℹ️ Description</th>
-                        <th style="text-align: center;">⚙️ Actions</th>
+                        <th><i class="fas fa-calendar-alt"></i> Event Name</th>
+                        <th><i class="fas fa-building"></i> Venue</th>
+                        <th><i class="fas fa-clock"></i> Start Date</th>
+                        <th><i class="fas fa-clock"></i> End Date</th>
+                        <th><i class="fas fa-circle-info"></i> Description</th>
+                        <th style="text-align: center;"><i class="fas fa-gear"></i> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +48,10 @@
                     {
                         <tr>
                             <td>
+                                @if (!string.IsNullOrEmpty(evt.ImageUrl))
+                                {
+                                    <img src="@evt.ImageUrl" alt="@evt.Name" style="width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius); margin-right: 0.75rem; vertical-align: middle;" />
+                                }
                                 <strong>@evt.Name</strong>
                             </td>
                             <td>
@@ -59,7 +64,7 @@
                                 else
                                 {
                                     <span class="badge" style="background: #fee2e2; color: #991b1b;">
-                                        ⚠️ Not assigned
+                                        <i class="fas fa-triangle-exclamation"></i> Not assigned
                                     </span>
                                 }
                             </td>
@@ -75,13 +80,13 @@
                             <td style="text-align: center;">
                                 <div style="display: flex; gap: 0.5rem; justify-content: center;">
                                     <a asp-action="Details" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        👁️ View
+                                        <i class="fas fa-eye"></i> View
                                     </a>
                                     <a asp-action="Edit" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--warning); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        ✏️ Edit
+                                        <i class="fas fa-pen"></i> Edit
                                     </a>
                                     <a asp-action="Delete" asp-route-id="@evt.EventId" class="btn btn-small" style="background: var(--danger); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        🗑️ Delete
+                                        <i class="fas fa-trash-alt"></i> Delete
                                     </a>
                                 </div>
                             </td>
@@ -95,7 +100,7 @@
 else
 {
     <div class="card" style="text-align: center; padding: 3rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+        <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-400);"><i class="fas fa-box-open"></i></div>
         <h2>No Events Found</h2>
         <p style="color: var(--gray-600); margin-bottom: 2rem;">Create your first event to get started.</p>
         <a asp-action="Create" class="btn btn-primary btn-large">Create Event</a>

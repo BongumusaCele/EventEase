@@ -19,7 +19,7 @@ namespace EventEase.Models
         public int Capacity { get; set; }
 
         [StringLength(500, ErrorMessage = "Image URL cannot exceed 500 characters")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         public List<Event>? Events { get; set; }
         public List<Booking>? Bookings { get; set; }

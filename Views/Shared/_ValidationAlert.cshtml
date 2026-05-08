@@ -1,0 +1,14 @@
+@{
+    var modelState = ViewData.ModelState;
+    var modelLevelMessage = modelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage;
+    var message = !string.IsNullOrWhiteSpace(modelLevelMessage)
+        ? modelLevelMessage
+        : "Please check the highlighted fields and try again.";
+}
+
+@if (!modelState.IsValid)
+{
+    <div class="alert alert-danger" style="margin-bottom: 1.5rem;">
+        @message
+    </div>
+}

@@ -20,6 +20,9 @@ namespace EventEase.Models
         [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters")]
         public string? Description { get; set; }
 
+        [StringLength(500, ErrorMessage = "Image URL cannot exceed 500 characters")]
+        public string? ImageUrl { get; set; }
+
         public int? VenueId { get; set; }
 
         [ForeignKey("VenueId")]

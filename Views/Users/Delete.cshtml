@@ -1,16 +1,74 @@
-﻿@model User
+@model User
 @{
     ViewData["Title"] = "Delete User";
 }
 
-<h2>Delete User</h2>
+<partial name="_DeleteConfirmationStyles" />
 
-<div class="alert alert-warning mt-3">
-    Are you sure you want to delete <strong>@Model.Email</strong>?
+<div class="confirm-delete-page">
+    <section class="confirm-delete-card">
+        <div class="confirm-delete-hero">
+            <div class="confirm-delete-icon">
+                <i class="fas @(ViewBag.HasLinkedBookings == true ? "fa-lock" : "fa-user-shield")"></i>
+            </div>
+            <div class="confirm-delete-heading">
+                <p class="confirm-delete-kicker">Delete user</p>
+                <h1>@Model.Email</h1>
+                <p>Review this user account before removing access to EventEase.</p>
+            </div>
+        </div>
+
+        <div class="confirm-delete-body">
+            @if (ViewBag.HasLinkedBookings == true)
+            {
+                <div class="confirm-delete-message blocked">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <strong>Deletion blocked</strong>
+                        <p>This user is linked to existing bookings and cannot be deleted while booking records still reference them.</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="confirm-delete-message warning">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <div>
+                        <strong>This action cannot be undone</strong>
+                        <p>Deleting this user removes their account and application access.</p>
+                    </div>
+                </div>
+            }
+
+            <div class="confirm-delete-grid">
+                <div class="confirm-delete-field">
+                    <span>Email</span>
+                    <strong>@Model.Email</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Role</span>
+                    <strong>@Model.Role</strong>
+                </div>
+            </div>
+
+            @if (ViewBag.HasLinkedBookings == true)
+            {
+                <div class="confirm-delete-actions">
+                    <a class="btn btn-secondary" asp-action="Index">Back to Users</a>
+                </div>
+            }
+            else
+            {
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="UserId" />
+                    <div class="confirm-delete-actions">
+                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fas fa-trash-alt" style="margin-right: 0.5rem;"></i>Delete User
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </section>
 </div>
-
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="UserId" />
-    <button class="btn btn-danger" type="submit">Delete</button>
-    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
-</form>

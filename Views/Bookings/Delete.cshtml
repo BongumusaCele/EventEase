@@ -1,24 +1,68 @@
-﻿@model Booking
+@model Booking
 @{
     ViewData["Title"] = "Delete Booking";
 }
 
-<h2>Delete Booking</h2>
+<partial name="_DeleteConfirmationStyles" />
 
-<div class="alert alert-warning mt-3">
-    Are you sure you want to delete Booking <strong>#@Model.BookingId</strong>?
+<div class="confirm-delete-page">
+    <section class="confirm-delete-card">
+        <div class="confirm-delete-hero">
+            <div class="confirm-delete-icon">
+                <i class="fas fa-calendar-xmark"></i>
+            </div>
+            <div class="confirm-delete-heading">
+                <p class="confirm-delete-kicker">Delete booking</p>
+                <h1>Booking #@Model.BookingId</h1>
+                <p>Check the reservation details before permanently removing this booking.</p>
+            </div>
+        </div>
+
+        <div class="confirm-delete-body">
+            <div class="confirm-delete-message warning">
+                <i class="fas fa-triangle-exclamation"></i>
+                <div>
+                    <strong>This action cannot be undone</strong>
+                    <p>Deleting this booking permanently removes the reservation record.</p>
+                </div>
+            </div>
+
+            <div class="confirm-delete-grid">
+                <div class="confirm-delete-field">
+                    <span>Venue</span>
+                    <strong>@(Model.Venue?.Name ?? "Not assigned")</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Event</span>
+                    <strong>@(Model.Event?.Name ?? "Not assigned")</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Customer</span>
+                    <strong>@(Model.Customer?.Name ?? "Not assigned")</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Status</span>
+                    <strong>@Model.Status</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Start</span>
+                    <strong>@Model.StartDateTime.ToString("MMM dd, yyyy HH:mm")</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>End</span>
+                    <strong>@Model.EndDateTime.ToString("MMM dd, yyyy HH:mm")</strong>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="BookingId" />
+                <div class="confirm-delete-actions">
+                    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                    <button class="btn btn-danger" type="submit">
+                        <i class="fas fa-trash-alt" style="margin-right: 0.5rem;"></i>Delete Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
 </div>
-
-<ul class="list-group mb-3">
-    <li class="list-group-item"><strong>Venue:</strong> @Model.Venue?.Name</li>
-    <li class="list-group-item"><strong>Event:</strong> @Model.Event?.Name</li>
-    <li class="list-group-item"><strong>Customer:</strong> @Model.Customer?.Name</li>
-    <li class="list-group-item"><strong>Start:</strong> @Model.StartDateTime</li>
-    <li class="list-group-item"><strong>End:</strong> @Model.EndDateTime</li>
-</ul>
-
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="BookingId" />
-    <button class="btn btn-danger" type="submit">Delete</button>
-    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
-</form>

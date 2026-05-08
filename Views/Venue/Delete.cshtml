@@ -1,16 +1,74 @@
-﻿@model Venue
+@model Venue
 @{
     ViewData["Title"] = "Delete Venue";
 }
 
-<h2>Delete Venue</h2>
+<partial name="_DeleteConfirmationStyles" />
 
-<div class="alert alert-warning mt-3">
-    Are you sure you want to delete <strong>@Model.Name</strong>?
+<div class="confirm-delete-page">
+    <section class="confirm-delete-card">
+        <div class="confirm-delete-hero">
+            <div class="confirm-delete-icon">
+                <i class="fas @(ViewBag.HasLinkedBookings == true ? "fa-lock" : "fa-building-circle-xmark")"></i>
+            </div>
+            <div class="confirm-delete-heading">
+                <p class="confirm-delete-kicker">Delete venue</p>
+                <h1>@Model.Name</h1>
+                <p>Review this venue before removing it from your venue catalogue.</p>
+            </div>
+        </div>
+
+        <div class="confirm-delete-body">
+            @if (ViewBag.HasLinkedBookings == true)
+            {
+                <div class="confirm-delete-message blocked">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <strong>Deletion blocked</strong>
+                        <p>This venue is linked to existing bookings and cannot be deleted while booking records still reference it.</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="confirm-delete-message warning">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <div>
+                        <strong>This action cannot be undone</strong>
+                        <p>Deleting this venue will also unassign it from events that are not booked.</p>
+                    </div>
+                </div>
+            }
+
+            <div class="confirm-delete-grid">
+                <div class="confirm-delete-field">
+                    <span>Location</span>
+                    <strong>@Model.Location</strong>
+                </div>
+                <div class="confirm-delete-field">
+                    <span>Capacity</span>
+                    <strong>@Model.Capacity guests</strong>
+                </div>
+            </div>
+
+            @if (ViewBag.HasLinkedBookings == true)
+            {
+                <div class="confirm-delete-actions">
+                    <a class="btn btn-secondary" asp-action="Index">Back to Venues</a>
+                </div>
+            }
+            else
+            {
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="VenueId" />
+                    <div class="confirm-delete-actions">
+                        <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fas fa-trash-alt" style="margin-right: 0.5rem;"></i>Delete Venue
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </section>
 </div>
-
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="VenueId" />
-    <button class="btn btn-danger" type="submit">Delete</button>
-    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
-</form>

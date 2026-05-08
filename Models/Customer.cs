@@ -17,7 +17,7 @@ namespace EventEase.Models
 
         [Phone(ErrorMessage = "Please enter a valid phone number")]
         [StringLength(20, ErrorMessage = "Phone number cannot exceed 20 characters")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         public List<Booking>? Bookings { get; set; }
     }

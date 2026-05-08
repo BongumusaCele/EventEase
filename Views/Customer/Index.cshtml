@@ -7,7 +7,7 @@
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-            <h1>👥 Customer Management</h1>
+            <h1><i class="fas fa-users" style="color: var(--primary); margin-right: 0.5rem;"></i>Customer Management</h1>
             <p>View and manage all your event customers</p>
 </div>
         <a asp-action="Create" class="btn btn-primary btn-large">
@@ -19,7 +19,7 @@
 <!-- Search Bar -->
 <div style="margin-bottom: 2rem;">
     <form method="get" style="display: flex; gap: 1rem;">
-        <input type="text" name="search" class="form-control" placeholder="🔍 Search customers by name or email..." 
+        <input type="text" name="search" class="form-control" placeholder="Search customers by name or email..." 
                style="flex: 1; max-width: 500px;" value="@(ViewBag.SearchTerm ?? "")" />
         <button type="submit" class="btn btn-primary">Search</button>
         <a href="/Customer/Index" class="btn btn-secondary">Clear</a>
@@ -34,10 +34,10 @@
             <table>
     <thead>
         <tr>
-                        <th>👤 Name</th>
-                        <th>📧 Email</th>
-                        <th>📱 Phone</th>
-                        <th style="text-align: center;">⚙️ Actions</th>
+                        <th><i class="fas fa-user"></i> Name</th>
+                        <th><i class="fas fa-envelope"></i> Email</th>
+                        <th><i class="fas fa-phone"></i> Phone</th>
+                        <th style="text-align: center;"><i class="fas fa-gear"></i> Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -52,13 +52,13 @@
                             <td style="text-align: center;">
                                 <div style="display: flex; gap: 0.5rem; justify-content: center;">
                                     <a asp-action="Details" asp-route-id="@customer.CustomerId" class="btn btn-small" style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem;">
-                                        👁️ View
+                                        <i class="fas fa-eye"></i> View
                                     </a>
                                     <a asp-action="Edit" asp-route-id="@customer.CustomerId" class="btn btn-small" style="background: var(--warning); color: white; padding: 0.25rem 0.75rem;">
-                                        ✏️ Edit
+                                        <i class="fas fa-pen"></i> Edit
                                     </a>
                                     <a asp-action="Delete" asp-route-id="@customer.CustomerId" class="btn btn-small" style="background: var(--danger); color: white; padding: 0.25rem 0.75rem;">
-                                        🗑️ Delete
+                                        <i class="fas fa-trash-alt"></i> Delete
                                     </a>
                                 </div>
                 </td>
@@ -72,7 +72,7 @@
 else
 {
     <div class="card" style="text-align: center; padding: 3rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
+        <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-400);"><i class="fas fa-users-slash"></i></div>
         <h2>No Customers Found</h2>
         <p style="color: var(--gray-600); margin-bottom: 2rem;">Start by adding your first customer.</p>
         <a asp-action="Create" class="btn btn-primary btn-large">Add First Customer</a>

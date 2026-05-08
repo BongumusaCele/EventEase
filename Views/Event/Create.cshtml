@@ -14,13 +14,10 @@
         <div style="padding: 2rem;">
             @if (!ViewData.ModelState.IsValid)
             {
-                <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--radius); margin-bottom: 1.5rem; border-left: 4px solid #dc2626;">
-                    <strong>⚠️ Please fix the errors below:</strong>
-                    @Html.ValidationSummary(false)
-                </div>
+                <partial name="_ValidationAlert" />
             }
 
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
                 <!-- Event Name -->
                 <div class="form-group">
@@ -76,19 +73,21 @@
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Add details to make your event stand out</small>
                 </div>
 
-                <!-- Validation Errors -->
-                @if (!ViewData.ModelState.IsValid)
-                {
-                    <div class="alert alert-danger" style="margin-bottom: 1.5rem;">
-                        <strong>Please fix the errors below:</strong>
-                        @Html.ValidationSummary(false)
-                    </div>
-                }
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label class="form-label" for="imageFile">
+                        <i class="fas fa-image" style="color: var(--primary); margin-right: 0.5rem;"></i> Event Image <span style="color: var(--danger);">*</span>
+                    </label>
+                    <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp" />
+                    <input type="hidden" asp-for="ImageUrl" />
+                    <span asp-validation-for="ImageUrl" class="form-error"></span>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Required. Upload a JPG, PNG, GIF, or WEBP image to Azure Storage.</small>
+                </div>
 
                 <!-- Form Actions -->
                 <div style="display: flex; gap: 1rem; margin-top: 2rem; margin-bottom: 0;">
                     <button type="submit" class="btn btn-primary btn-large" style="flex: 1;">
-                        ✨ Create Event
+                        <i class="fas fa-plus-circle" style="margin-right: 0.5rem;"></i>Create Event
                     </button>
                     <a asp-action="Index" class="btn btn-secondary btn-large" style="flex: 1;">
                         Cancel
@@ -99,7 +98,7 @@
     </div>
 
     <div style="text-align: center; margin-top: 2rem;">
-        <a asp-action="Index" style="color: var(--primary); font-weight: 500;">← Back to Events</a>
+        <a asp-action="Index" style="color: var(--primary); font-weight: 500;"><i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>Back to Events</a>
     </div>
 </div>
 

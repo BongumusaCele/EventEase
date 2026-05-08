@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
+    @{
+        var successMessage = TempData["SuccessMessage"] as string;
+        var errorMessage = TempData["ErrorMessage"] as string;
+    }
     <div class="app-wrapper">
         @if (User?.Identity?.IsAuthenticated ?? false)
         {
@@ -28,7 +32,9 @@
                     <a href="/Dashboard" class="sidebar-brand" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: white;">
                         <img src="~/images/eventease-logo.png" alt="EventEase Logo" style="height: 40px; width: auto;">
                     </a>
-                    <button class="close-sidebar" onclick="toggleSidebar()">✕</button>
+                    <button class="close-sidebar" onclick="toggleSidebar()" aria-label="Close navigation">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
 
                 <ul class="sidebar-menu">
@@ -117,7 +123,9 @@
                 <!-- Top Bar -->
                 <div class="topbar">
                     <div class="topbar-left">
-                        <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+                        <button class="toggle-sidebar" onclick="toggleSidebar()" aria-label="Open navigation">
+                            <i class="fas fa-bars"></i>
+                        </button>
                         <h2 style="margin: 0;">@ViewData["Title"]</h2>
                     </div>
                     <div class="topbar-right">
@@ -127,6 +135,14 @@
 
                 <!-- Page Content -->
                 <div class="page-content">
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success" style="margin-bottom: 1rem;">@successMessage</div>
+                    }
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger" style="margin-bottom: 1rem;">@errorMessage</div>
+                    }
                     @RenderBody()
                 </div>
             </div>
@@ -159,6 +175,8 @@
             });
         });
     </script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

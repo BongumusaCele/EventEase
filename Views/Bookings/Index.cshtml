@@ -1,122 +1,121 @@
-﻿@model IEnumerable<Booking>
+@model IEnumerable<EventEase.Models.BookingDetailsView>
 
 @{
     ViewData["Title"] = "Bookings";
+    var searchTerm = ViewBag.SearchTerm as string ?? "";
 }
 
 <div class="page-header">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
         <div>
-            <h1>📋 Booking Management</h1>
-            <p>Track and manage all event bookings</p>
-</div>
+            <h1>Booking Management</h1>
+            <p>Search and manage enriched booking information from bookings, venues, events, customers, and specialists</p>
+        </div>
         <a asp-action="Create" class="btn btn-primary btn-large">
             <span style="font-size: 1.2rem; margin-right: 0.5rem;">+</span> New Booking
         </a>
     </div>
 </div>
 
-<!-- Filter Section -->
-<div style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-    <select class="form-control" style="max-width: 200px;" onchange="filterBookings(this.value)">
-        <option value="">All Status</option>
-        <option value="Pending">⏳ Pending</option>
-        <option value="Confirmed">✅ Confirmed</option>
-        <option value="Completed">🎉 Completed</option>
-        <option value="Cancelled">❌ Cancelled</option>
-    </select>
-</div>
+<form method="get" asp-action="Index" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <input type="text"
+           name="search"
+           value="@searchTerm"
+           class="form-control"
+           placeholder="Search by Booking ID or Event Name"
+           style="flex: 1; min-width: 240px; max-width: 460px;" />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-action="Index" class="btn btn-secondary">Clear</a>
+</form>
 
-<!-- Bookings Table -->
 @if (Model?.Any() ?? false)
 {
     <div class="card">
         <div class="table-wrapper">
             <table>
-    <thead>
-        <tr>
-            <th>ID</th>
-                        <th>🏢 Venue</th>
-                        <th>🎉 Event</th>
-                        <th>👤 Customer</th>
-                        <th>📅 Start Date</th>
-                        <th>📅 End Date</th>
-            <th>Status</th>
-                        <th style="text-align: center;">⚙️ Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+                <thead>
+                    <tr>
+                        <th>Booking</th>
+                        <th>Event</th>
+                        <th>Venue</th>
+                        <th>Customer</th>
+                        <th>Specialist</th>
+                        <th>Schedule</th>
+                        <th>Status</th>
+                        <th style="text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach (var booking in Model)
-        {
-            <tr>
+                    {
+                        var statusBadge = booking.Status switch
+                        {
+                            "Pending" => "badge-warning",
+                            "Confirmed" => "badge-success",
+                            "Completed" => "badge-primary",
+                            "Cancelled" => "badge-danger",
+                            _ => "badge-secondary"
+                        };
+
+                        <tr>
                             <td><strong>#@booking.BookingId</strong></td>
-                            <td>@booking.Venue?.Name</td>
-                            <td>@booking.Event?.Name</td>
-                            <td>@booking.Customer?.Name</td>
-                            <td>@booking.StartDateTime.ToString("MMM dd, yyyy")</td>
-                            <td>@booking.EndDateTime.ToString("MMM dd, yyyy")</td>
                             <td>
-                                @{
-                                    var statusBadge = booking.Status switch
-                                    {
-                                        "Pending" => "badge-warning",
-                                        "Confirmed" => "badge-success",
-                                        "Completed" => "badge-primary",
-                                        "Cancelled" => "badge-danger",
-                                        _ => "badge-secondary"
-                                    };
-                                    var statusIcon = booking.Status switch
-                                    {
-                                        "Pending" => "⏳",
-                                        "Confirmed" => "✅",
-                                        "Completed" => "🎉",
-                                        "Cancelled" => "❌",
-                                        _ => "❓"
-                                    };
-                                }
-                                <span class="badge @statusBadge">
-                                    @statusIcon @booking.Status
-                                </span>
+                                <strong>@booking.EventName</strong>
+                                <div style="color: var(--gray-600); font-size: 0.8rem;">
+                                    @booking.EventStartDateTime.ToString("MMM dd, yyyy HH:mm")
+                                </div>
+                            </td>
+                            <td>
+                                <strong>@booking.VenueName</strong>
+                                <div style="color: var(--gray-600); font-size: 0.8rem;">
+                                    @booking.VenueLocation
+                                </div>
+                                <div style="color: var(--gray-600); font-size: 0.8rem;">
+                                    Capacity: @booking.VenueCapacity
+                                </div>
+                            </td>
+                            <td>
+                                <strong>@booking.CustomerName</strong>
+                                <div style="color: var(--gray-600); font-size: 0.8rem;">@booking.CustomerEmail</div>
+                            </td>
+                            <td>@booking.BookingSpecialistEmail</td>
+                            <td>
+                                <div>@booking.BookingStartDateTime.ToString("MMM dd, yyyy HH:mm")</div>
+                                <div style="color: var(--gray-600); font-size: 0.8rem;">
+                                    to @booking.BookingEndDateTime.ToString("MMM dd, yyyy HH:mm")
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge @statusBadge">@booking.Status</span>
                             </td>
                             <td style="text-align: center;">
-                                <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
                                     <a asp-action="Details" asp-route-id="@booking.BookingId" class="btn btn-small" style="background: var(--primary-light); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        👁️ View
+                                        View
                                     </a>
                                     <a asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn-small" style="background: var(--warning); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        ✏️ Edit
+                                        Edit
                                     </a>
                                     <a asp-action="Delete" asp-route-id="@booking.BookingId" class="btn btn-small" style="background: var(--danger); color: white; padding: 0.25rem 0.75rem; font-size: 0.75rem;">
-                                        🗑️ Delete
+                                        Delete
                                     </a>
                                 </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 }
 else
 {
     <div class="card" style="text-align: center; padding: 3rem;">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
         <h2>No Bookings Found</h2>
-        <p style="color: var(--gray-600); margin-bottom: 2rem;">Create your first booking to get started.</p>
+        <p style="color: var(--gray-600); margin-bottom: 2rem;">Try another search term or create a new booking.</p>
         <a asp-action="Create" class="btn btn-primary btn-large">Create Booking</a>
     </div>
 }
-
-<script>
-    function filterBookings(status) {
-        if (status) {
-            window.location.href = `?status=${status}`;
-        } else {
-            window.location.href = '/Bookings';
-        }
-    }
-</script>
 
 <style>
     .page-header {
@@ -132,25 +131,31 @@ else
         border-radius: 9999px;
         font-size: 0.75rem;
         font-weight: 600;
+        display: inline-block;
     }
 
-    .badge-pending {
+    .badge-warning {
         background-color: #fef3c7;
         color: #92400e;
     }
 
-    .badge-confirmed {
+    .badge-success {
         background-color: #dcfce7;
         color: #166534;
     }
 
-    .badge-completed {
+    .badge-primary {
         background-color: #dbeafe;
         color: #1e40af;
     }
 
-    .badge-cancelled {
+    .badge-danger {
         background-color: #fee2e2;
         color: #991b1b;
+    }
+
+    .badge-secondary {
+        background-color: var(--gray-200);
+        color: var(--gray-700);
     }
 </style>

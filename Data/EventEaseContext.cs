@@ -9,6 +9,12 @@ namespace EventEase.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BookingDetailsView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("BookingDetailsView");
+            });
+
            modelBuilder.Entity<Event>()
                 .HasOne(e => e.Venue)
                 .WithMany(v => v.Events)
@@ -47,5 +53,6 @@ namespace EventEase.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<BookingDetailsView> BookingDetailsView { get; set; }
     }
 }
