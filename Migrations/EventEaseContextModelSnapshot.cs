@@ -111,6 +111,13 @@ namespace EventEase.Migrations
                     b.Property<DateTime>("EventStartDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EventTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -126,6 +133,9 @@ namespace EventEase.Migrations
 
                     b.Property<string>("VenueImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("VenueIsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("VenueLocation")
                         .IsRequired()
@@ -159,7 +169,6 @@ namespace EventEase.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -183,6 +192,9 @@ namespace EventEase.Migrations
                     b.Property<DateTime>("EndDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EventTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -200,9 +212,76 @@ namespace EventEase.Migrations
 
                     b.HasKey("EventId");
 
+                    b.HasIndex("EventTypeId");
+
                     b.HasIndex("VenueId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventEase.Models.EventType", b =>
+                {
+                    b.Property<int>("EventTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("EventTypeId");
+
+                    b.ToTable("EventTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            EventTypeId = 1,
+                            Name = "General"
+                        },
+                        new
+                        {
+                            EventTypeId = 2,
+                            Name = "Conference"
+                        },
+                        new
+                        {
+                            EventTypeId = 3,
+                            Name = "Wedding"
+                        },
+                        new
+                        {
+                            EventTypeId = 4,
+                            Name = "Concert"
+                        },
+                        new
+                        {
+                            EventTypeId = 5,
+                            Name = "Workshop"
+                        },
+                        new
+                        {
+                            EventTypeId = 6,
+                            Name = "Seminar"
+                        },
+                        new
+                        {
+                            EventTypeId = 7,
+                            Name = "Exhibition"
+                        },
+                        new
+                        {
+                            EventTypeId = 8,
+                            Name = "Corporate"
+                        },
+                        new
+                        {
+                            EventTypeId = 9,
+                            Name = "Social"
+                        });
                 });
 
             modelBuilder.Entity("EventEase.Models.User", b =>
@@ -247,6 +326,9 @@ namespace EventEase.Migrations
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -300,10 +382,18 @@ namespace EventEase.Migrations
 
             modelBuilder.Entity("EventEase.Models.Event", b =>
                 {
+                    b.HasOne("EventEase.Models.EventType", "EventType")
+                        .WithMany("Events")
+                        .HasForeignKey("EventTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("EventEase.Models.Venue", "Venue")
                         .WithMany("Events")
                         .HasForeignKey("VenueId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("EventType");
 
                     b.Navigation("Venue");
                 });
@@ -316,6 +406,11 @@ namespace EventEase.Migrations
             modelBuilder.Entity("EventEase.Models.Event", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("EventEase.Models.EventType", b =>
+                {
+                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("EventEase.Models.User", b =>

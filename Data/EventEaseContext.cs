@@ -9,11 +9,28 @@ namespace EventEase.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EventType>().HasData(
+                new EventType { EventTypeId = 1, Name = "General" },
+                new EventType { EventTypeId = 2, Name = "Conference" },
+                new EventType { EventTypeId = 3, Name = "Wedding" },
+                new EventType { EventTypeId = 4, Name = "Concert" },
+                new EventType { EventTypeId = 5, Name = "Workshop" },
+                new EventType { EventTypeId = 6, Name = "Seminar" },
+                new EventType { EventTypeId = 7, Name = "Exhibition" },
+                new EventType { EventTypeId = 8, Name = "Corporate" },
+                new EventType { EventTypeId = 9, Name = "Social" });
+
             modelBuilder.Entity<BookingDetailsView>(entity =>
             {
                 entity.HasNoKey();
                 entity.ToView("BookingDetailsView");
             });
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.EventType)
+                .WithMany(et => et.Events)
+                .HasForeignKey(e => e.EventTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
 
            modelBuilder.Entity<Event>()
                 .HasOne(e => e.Venue)
@@ -49,6 +66,7 @@ namespace EventEase.Data
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<User> Users { get; set; }

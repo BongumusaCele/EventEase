@@ -36,6 +36,7 @@
                 <thead>
                     <tr>
                         <th><i class="fas fa-calendar-alt"></i> Event Name</th>
+                        <th><i class="fas fa-tags"></i> Type</th>
                         <th><i class="fas fa-building"></i> Venue</th>
                         <th><i class="fas fa-clock"></i> Start Date</th>
                         <th><i class="fas fa-clock"></i> End Date</th>
@@ -53,6 +54,11 @@
                                     <img src="@evt.ImageUrl" alt="@evt.Name" style="width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius); margin-right: 0.75rem; vertical-align: middle;" />
                                 }
                                 <strong>@evt.Name</strong>
+                            </td>
+                            <td>
+                                <span class="badge" style="background: #dbeafe; color: #1e40af;">
+                                    @(evt.EventType?.Name ?? "General")
+                                </span>
                             </td>
                             <td>
                                 @if (evt.Venue != null)

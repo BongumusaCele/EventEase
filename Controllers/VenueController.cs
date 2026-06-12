@@ -19,7 +19,7 @@ namespace EventEase.Controllers
             _blobStorageService = blobStorageService;
         }
 
-        public async Task<IActionResult> Index(string? search)
+        public async Task<IActionResult> Index(string? search, bool? isAvailable)
         {
             var query = _contextEventEase.Venues.AsQueryable();
 
@@ -36,8 +36,14 @@ namespace EventEase.Controllers
                         v.Location.Contains(trimmedSearch));
             }
 
+            if (isAvailable.HasValue)
+            {
+                query = query.Where(v => v.IsAvailable == isAvailable.Value);
+            }
+
             var venues = await query.OrderBy(v => v.Name).ToListAsync();
             ViewBag.SearchTerm = search;
+            ViewBag.SelectedAvailability = isAvailable?.ToString().ToLowerInvariant();
             return View(venues);
         }
 
@@ -54,7 +60,7 @@ namespace EventEase.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(new Venue { IsAvailable = true });
         }
 
         [HttpPost]

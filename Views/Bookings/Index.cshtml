@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Bookings";
     var searchTerm = ViewBag.SearchTerm as string ?? "";
+    var selectedVenueAvailability = ViewBag.SelectedVenueAvailable as string ?? "";
 }
 
 <div class="page-header">
@@ -17,13 +18,51 @@
     </div>
 </div>
 
+@if (!string.IsNullOrEmpty(ViewBag.FilterError as string))
+{
+    <div class="alert alert-danger" style="margin-bottom: 1rem;">@ViewBag.FilterError</div>
+}
+
 <form method="get" asp-action="Index" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
     <input type="text"
            name="search"
            value="@searchTerm"
            class="form-control"
            placeholder="Search by Booking ID or Event Name"
-           style="flex: 1; min-width: 240px; max-width: 460px;" />
+           style="flex: 1; min-width: 220px; max-width: 360px;" />
+    <select name="eventTypeId" asp-items="ViewBag.EventTypes" class="form-control" style="min-width: 190px; max-width: 240px;">
+        <option value="">All Event Types</option>
+    </select>
+    <input type="date"
+           name="startDate"
+           value="@(ViewBag.StartDate ?? "")"
+           class="form-control"
+           style="min-width: 160px; max-width: 190px;"
+           aria-label="Booking start date" />
+    <input type="date"
+           name="endDate"
+           value="@(ViewBag.EndDate ?? "")"
+           class="form-control"
+           style="min-width: 160px; max-width: 190px;"
+           aria-label="Booking end date" />
+    <select name="venueAvailable" class="form-control" style="min-width: 190px; max-width: 230px;">
+        <option value="">All Venue Availability</option>
+        @if (selectedVenueAvailability == "true")
+        {
+            <option value="true" selected>Available Venues</option>
+            <option value="false">Unavailable Venues</option>
+        }
+        else if (selectedVenueAvailability == "false")
+        {
+            <option value="true">Available Venues</option>
+            <option value="false" selected>Unavailable Venues</option>
+        }
+        else
+        {
+            <option value="true">Available Venues</option>
+            <option value="false">Unavailable Venues</option>
+        }
+    </select>
     <button type="submit" class="btn btn-primary">Search</button>
     <a asp-action="Index" class="btn btn-secondary">Clear</a>
 </form>
@@ -37,6 +76,7 @@
                     <tr>
                         <th>Booking</th>
                         <th>Event</th>
+                        <th>Type</th>
                         <th>Venue</th>
                         <th>Customer</th>
                         <th>Specialist</th>
@@ -66,12 +106,18 @@
                                 </div>
                             </td>
                             <td>
+                                <span class="badge badge-primary">@booking.EventTypeName</span>
+                            </td>
+                            <td>
                                 <strong>@booking.VenueName</strong>
                                 <div style="color: var(--gray-600); font-size: 0.8rem;">
                                     @booking.VenueLocation
                                 </div>
                                 <div style="color: var(--gray-600); font-size: 0.8rem;">
                                     Capacity: @booking.VenueCapacity
+                                </div>
+                                <div style="font-size: 0.8rem; color: @(booking.VenueIsAvailable ? "#166534" : "#991b1b");">
+                                    @(booking.VenueIsAvailable ? "Available" : "Unavailable")
                                 </div>
                             </td>
                             <td>

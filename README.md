@@ -7,6 +7,9 @@ EventEase is an ASP.NET Core MVC event management web app for managing venues, e
 - User authentication with cookie-based login.
 - Role-based access for Admin, Booking Specialist, and Customer users.
 - Venue, event, customer, user, and booking management.
+- Event type classification with predefined lookup categories.
+- Advanced booking filters by event type, booking date range, and venue availability.
+- Venue availability tracking for booking/search workflows.
 - Azure Blob Storage image uploads for venue and event images.
 - Friendly validation messages across forms.
 - Double-booking prevention for venues.

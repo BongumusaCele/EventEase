@@ -18,7 +18,7 @@ namespace EventEase.Controllers
             _contextEventEase = contextEventEase;
         }
 
-        public async Task<IActionResult> Index(string? search)
+        public async Task<IActionResult> Index(string? search, int? eventTypeId, DateTime? startDate, DateTime? endDate, bool? venueAvailable)
         {
             var query = _contextEventEase.BookingDetailsView.AsNoTracking();
 
@@ -30,11 +30,48 @@ namespace EventEase.Controllers
                     : query.Where(b => b.EventName.Contains(trimmedSearch));
             }
 
+            if (eventTypeId.HasValue)
+            {
+                query = query.Where(b => b.EventTypeId == eventTypeId.Value);
+            }
+
+            if (startDate.HasValue && endDate.HasValue && endDate.Value.Date < startDate.Value.Date)
+            {
+                ViewBag.FilterError = "End date must be on or after start date.";
+            }
+            else
+            {
+                if (startDate.HasValue)
+                {
+                    query = query.Where(b => b.BookingEndDateTime >= startDate.Value.Date);
+                }
+
+                if (endDate.HasValue)
+                {
+                    var exclusiveEndDate = endDate.Value.Date.AddDays(1);
+                    query = query.Where(b => b.BookingStartDateTime < exclusiveEndDate);
+                }
+            }
+
+            if (venueAvailable.HasValue)
+            {
+                query = query.Where(b => b.VenueIsAvailable == venueAvailable.Value);
+            }
+
             var items = await query
                 .OrderByDescending(b => b.BookingId)
                 .ToListAsync();
 
             ViewBag.SearchTerm = search;
+            ViewBag.SelectedEventTypeId = eventTypeId;
+            ViewBag.StartDate = startDate?.ToString("yyyy-MM-dd");
+            ViewBag.EndDate = endDate?.ToString("yyyy-MM-dd");
+            ViewBag.SelectedVenueAvailable = venueAvailable?.ToString().ToLowerInvariant();
+            ViewBag.EventTypes = new SelectList(
+                await _contextEventEase.EventTypes.OrderBy(et => et.Name).ToListAsync(),
+                "EventTypeId",
+                "Name",
+                eventTypeId);
             return View(items);
         }
 

@@ -29,6 +29,18 @@
                     <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">What's the name of your event?</small>
                 </div>
 
+                <!-- Event Type -->
+                <div class="form-group">
+                    <label class="form-label" asp-for="EventTypeId">
+                        <i class="fas fa-tags" style="color: var(--primary); margin-right: 0.5rem;"></i> Event Type
+                    </label>
+                    <select asp-for="EventTypeId" asp-items="ViewBag.EventTypes" class="form-control">
+                        <option value="">-- Choose an event type --</option>
+                    </select>
+                    <span asp-validation-for="EventTypeId" class="form-error"></span>
+                    <small style="color: var(--gray-500); display: block; margin-top: 0.25rem;">Classify this event for reporting and booking filters</small>
+                </div>
+
                 <!-- Venue Selection -->
                 <div class="form-group">
                     <label class="form-label">

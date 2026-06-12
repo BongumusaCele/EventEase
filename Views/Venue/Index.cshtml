@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Venues";
+    var selectedAvailability = ViewBag.SelectedAvailability as string ?? "";
 }
 
 <div class="page-header">
@@ -18,9 +19,27 @@
 
 <!-- Search Bar -->
 <div style="margin-bottom: 2rem;">
-    <form method="get" style="display: flex; gap: 1rem;">
+    <form method="get" style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <input type="text" name="search" class="form-control" placeholder="Search venues..." 
                style="flex: 1; max-width: 400px;" value="@(ViewBag.SearchTerm ?? "")" />
+        <select name="isAvailable" class="form-control" style="max-width: 220px;">
+            <option value="">All Availability</option>
+            @if (selectedAvailability == "true")
+            {
+                <option value="true" selected>Available</option>
+                <option value="false">Unavailable</option>
+            }
+            else if (selectedAvailability == "false")
+            {
+                <option value="true">Available</option>
+                <option value="false" selected>Unavailable</option>
+            }
+            else
+            {
+                <option value="true">Available</option>
+                <option value="false">Unavailable</option>
+            }
+        </select>
         <button type="submit" class="btn btn-primary">Search</button>
         <a href="/Venue" class="btn btn-secondary">Clear</a>
     </form>
@@ -57,6 +76,10 @@
                         <div style="display: flex; justify-content: space-between;">
                             <span style="color: var(--gray-600);"><i class="fas fa-users"></i> Capacity</span>
                             <strong>@venue.Capacity people</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                            <span style="color: var(--gray-600);"><i class="fas fa-circle-check"></i> Availability</span>
+                            <strong style="color: @(venue.IsAvailable ? "var(--success)" : "var(--danger)");">@(venue.IsAvailable ? "Available" : "Unavailable")</strong>
                         </div>
                     </div>
 

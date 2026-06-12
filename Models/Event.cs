@@ -23,6 +23,13 @@ namespace EventEase.Models
         [StringLength(500, ErrorMessage = "Image URL cannot exceed 500 characters")]
         public string? ImageUrl { get; set; }
 
+        [Required(ErrorMessage = "Event type is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Choose an event type")]
+        public int EventTypeId { get; set; }
+
+        [ForeignKey("EventTypeId")]
+        public EventType? EventType { get; set; }
+
         public int? VenueId { get; set; }
 
         [ForeignKey("VenueId")]

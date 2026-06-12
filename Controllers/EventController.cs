@@ -22,7 +22,10 @@ namespace EventEase.Controllers
 
         public async Task<IActionResult> Index(string? search, int? venueId)
         {
-            var query = _contextEventEase.Events.Include(v => v.Venue).AsQueryable();
+            var query = _contextEventEase.Events
+                .Include(e => e.Venue)
+                .Include(e => e.EventType)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
@@ -30,6 +33,7 @@ namespace EventEase.Controllers
                 query = query.Where(e =>
                     e.Name.Contains(trimmedSearch) ||
                     (e.Description != null && e.Description.Contains(trimmedSearch)) ||
+                    (e.EventType != null && e.EventType.Name.Contains(trimmedSearch)) ||
                     (e.Venue != null && e.Venue.Name.Contains(trimmedSearch)));
             }
 
@@ -49,7 +53,10 @@ namespace EventEase.Controllers
         {
             if (id == null) { return NotFound(); }
 
-            var myEvents = await _contextEventEase.Events.Include(e => e.Venue).FirstOrDefaultAsync(e => e.EventId == id);
+            var myEvents = await _contextEventEase.Events
+                .Include(e => e.Venue)
+                .Include(e => e.EventType)
+                .FirstOrDefaultAsync(e => e.EventId == id);
 
             if (myEvents == null) { return NotFound(); }
 
@@ -58,13 +65,13 @@ namespace EventEase.Controllers
 
         public async Task<IActionResult> CreateAsync()
         {
-            ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name");
+            await PopulateEventFormListsAsync();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId, Name, StartDateTime, EndDateTime, Description, ImageUrl, VenueId")] Event item, IFormFile? imageFile)
+        public async Task<IActionResult> Create([Bind("EventId, Name, StartDateTime, EndDateTime, Description, ImageUrl, EventTypeId, VenueId")] Event item, IFormFile? imageFile)
         {
             if (item.EndDateTime <= item.StartDateTime)
             {
@@ -90,7 +97,7 @@ namespace EventEase.Controllers
                 catch (InvalidOperationException ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-                    ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                    await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                     return View(item);
                 }
 
@@ -102,7 +109,7 @@ namespace EventEase.Controllers
                 catch (DbUpdateException)
                 {
                     ModelState.AddModelError("", "We could not save this event. Please check the event details and try again.");
-                    ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                    await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                     return View(item);
                 }
 
@@ -110,7 +117,7 @@ namespace EventEase.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+            await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
             return View(item);
         }
 
@@ -122,7 +129,7 @@ namespace EventEase.Controllers
 
             if (ev == null) { return NotFound(); }
 
-            ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", ev.VenueId);
+            await PopulateEventFormListsAsync(ev.VenueId, ev.EventTypeId);
 
             return View(ev);
         }
@@ -146,7 +153,7 @@ namespace EventEase.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                 return View(item);
             }
 
@@ -165,7 +172,7 @@ namespace EventEase.Controllers
             catch (InvalidOperationException ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                 return View(item);
             }
 
@@ -173,7 +180,7 @@ namespace EventEase.Controllers
             {
                 ModelState.AddModelError("", "Please upload an event image before saving this event.");
                 ModelState.AddModelError(nameof(Event.ImageUrl), "Event image is required.");
-                ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                 return View(item);
             }
 
@@ -185,7 +192,7 @@ namespace EventEase.Controllers
             catch (DbUpdateException)
             {
                 ModelState.AddModelError("", "We could not update this event. Please check the event details and try again.");
-                ViewBag.Venues = new SelectList(await _contextEventEase.Venues.ToListAsync(), "VenueId", "Name", item.VenueId);
+                await PopulateEventFormListsAsync(item.VenueId, item.EventTypeId);
                 return View(item);
             }
 
@@ -233,6 +240,12 @@ namespace EventEase.Controllers
         private async Task<bool> HasLinkedBookingsAsync(int eventId)
         {
             return await _contextEventEase.Bookings.AnyAsync(b => b.EventId == eventId);
+        }
+
+        private async Task PopulateEventFormListsAsync(int? venueId = null, int? eventTypeId = null)
+        {
+            ViewBag.Venues = new SelectList(await _contextEventEase.Venues.OrderBy(v => v.Name).ToListAsync(), "VenueId", "Name", venueId);
+            ViewBag.EventTypes = new SelectList(await _contextEventEase.EventTypes.OrderBy(et => et.Name).ToListAsync(), "EventTypeId", "Name", eventTypeId);
         }
     }
 }

@@ -47,6 +47,16 @@
                     }
                 </div>
 
+                <!-- Event Type -->
+                <div>
+                    <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <i class="fas fa-tags" style="color: var(--primary); margin-right: 0.5rem;"></i>Event Type
+                    </label>
+                    <div style="margin-top: 0.75rem; font-size: 1.1rem; font-weight: 500; color: var(--gray-900);">
+                        @(Model.EventType?.Name ?? "General")
+                    </div>
+                </div>
+
                 <!-- Event Status -->
                 <div>
                     <label style="font-weight: 600; color: var(--gray-700); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
